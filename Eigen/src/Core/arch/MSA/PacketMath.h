@@ -58,17 +58,17 @@ typedef v4u32 Packet4ui;
 #define EIGEN_DECLARE_CONST_Packet4i(NAME, X) const Packet4i p4i_##NAME = {X, X, X, X}
 #define EIGEN_DECLARE_CONST_Packet4ui(NAME, X) const Packet4ui p4ui_##NAME = {X, X, X, X}
 
-inline std::ostream& operator<<(std::ostream& os, const Packet4f& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet4f& value) {
   os << "[ " << value[0] << ", " << value[1] << ", " << value[2] << ", " << value[3] << " ]";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Packet4i& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet4i& value) {
   os << "[ " << value[0] << ", " << value[1] << ", " << value[2] << ", " << value[3] << " ]";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Packet4ui& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet4ui& value) {
   os << "[ " << value[0] << ", " << value[1] << ", " << value[2] << ", " << value[3] << " ]";
   return os;
 }
@@ -136,7 +136,7 @@ struct unpacket_traits<Packet4i> {
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pset1<Packet4f>(const float& from) {
+EIGEN_STRONG_INLINE constexpr Packet4f pset1<Packet4f>(const float& from) {
   EIGEN_MSA_DEBUG;
 
   Packet4f v = {from, from, from, from};
@@ -144,14 +144,14 @@ EIGEN_STRONG_INLINE Packet4f pset1<Packet4f>(const float& from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pset1<Packet4i>(const int32_t& from) {
+EIGEN_STRONG_INLINE constexpr Packet4i pset1<Packet4i>(const int32_t& from) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fill_w(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pload1<Packet4f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet4f pload1<Packet4f>(const float* from) {
   EIGEN_MSA_DEBUG;
 
   float f = *from;
@@ -160,28 +160,28 @@ EIGEN_STRONG_INLINE Packet4f pload1<Packet4f>(const float* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pload1<Packet4i>(const int32_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet4i pload1<Packet4i>(const int32_t* from) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fill_w(*from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f padd<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f padd<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fadd_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i padd<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i padd<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_addv_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f plset<Packet4f>(const float& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f plset<Packet4f>(const float& a) {
   EIGEN_MSA_DEBUG;
 
   static const Packet4f countdown = {0.0f, 1.0f, 2.0f, 3.0f};
@@ -189,7 +189,7 @@ EIGEN_STRONG_INLINE Packet4f plset<Packet4f>(const float& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i plset<Packet4i>(const int32_t& a) {
+EIGEN_STRONG_INLINE constexpr Packet4i plset<Packet4i>(const int32_t& a) {
   EIGEN_MSA_DEBUG;
 
   static const Packet4i countdown = {0, 1, 2, 3};
@@ -197,84 +197,84 @@ EIGEN_STRONG_INLINE Packet4i plset<Packet4i>(const int32_t& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f psub<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f psub<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fsub_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i psub<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i psub<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_subv_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pnegate(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pnegate(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_bnegi_w((v4u32)a, 31);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pnegate(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr Packet4i pnegate(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_addvi_w((v4i32)__builtin_msa_nori_b((v16u8)a, 0), 1);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pconj(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pconj(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pconj(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr Packet4i pconj(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pmul<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pmul<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fmul_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pmul<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pmul<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_mulv_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pdiv<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pdiv<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fdiv_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pdiv<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pdiv<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_div_s_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pmadd(const Packet4f& a, const Packet4f& b, const Packet4f& c) {
+EIGEN_STRONG_INLINE constexpr Packet4f pmadd(const Packet4f& a, const Packet4f& b, const Packet4f& c) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fmadd_w(c, a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pmadd(const Packet4i& a, const Packet4i& b, const Packet4i& c) {
+EIGEN_STRONG_INLINE constexpr Packet4i pmadd(const Packet4i& a, const Packet4i& b, const Packet4i& c) {
   EIGEN_MSA_DEBUG;
 
   // Use "asm" construct to avoid __builtin_msa_maddv_w GNU C bug.
@@ -288,63 +288,63 @@ EIGEN_STRONG_INLINE Packet4i pmadd(const Packet4i& a, const Packet4i& b, const P
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pand<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pand<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_and_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pand<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pand<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4i)__builtin_msa_and_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f por<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f por<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_or_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i por<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i por<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4i)__builtin_msa_or_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pxor<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pxor<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_xor_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pxor<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pxor<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4i)__builtin_msa_xor_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pandnot<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pandnot<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
   return pand(a, (Packet4f)__builtin_msa_xori_b((v16u8)b, 255));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pandnot<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pandnot<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return pand(a, (Packet4i)__builtin_msa_xori_b((v16u8)b, 255));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pmin<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pmin<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -359,14 +359,14 @@ EIGEN_STRONG_INLINE Packet4f pmin<Packet4f>(const Packet4f& a, const Packet4f& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pmin<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pmin<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_min_s_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pmax<Packet4f>(const Packet4f& a, const Packet4f& b) {
+EIGEN_STRONG_INLINE constexpr Packet4f pmax<Packet4f>(const Packet4f& a, const Packet4f& b) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -381,42 +381,42 @@ EIGEN_STRONG_INLINE Packet4f pmax<Packet4f>(const Packet4f& a, const Packet4f& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pmax<Packet4i>(const Packet4i& a, const Packet4i& b) {
+EIGEN_STRONG_INLINE constexpr Packet4i pmax<Packet4i>(const Packet4i& a, const Packet4i& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_max_s_w(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet4f pload<Packet4f>(const float* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_ALIGNED_LOAD return (Packet4f)__builtin_msa_ld_w(const_cast<float*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pload<Packet4i>(const int32_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet4i pload<Packet4i>(const int32_t* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_ALIGNED_LOAD return __builtin_msa_ld_w(const_cast<int32_t*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet4f ploadu<Packet4f>(const float* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_LOAD return (Packet4f)__builtin_msa_ld_w(const_cast<float*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i ploadu<Packet4i>(const int32_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet4i ploadu<Packet4i>(const int32_t* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_LOAD return (Packet4i)__builtin_msa_ld_w(const_cast<int32_t*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f ploaddup<Packet4f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet4f ploaddup<Packet4f>(const float* from) {
   EIGEN_MSA_DEBUG;
 
   float f0 = from[0], f1 = from[1];
@@ -426,7 +426,7 @@ EIGEN_STRONG_INLINE Packet4f ploaddup<Packet4f>(const float* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i ploaddup<Packet4i>(const int32_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet4i ploaddup<Packet4i>(const int32_t* from) {
   EIGEN_MSA_DEBUG;
 
   int32_t i0 = from[0], i1 = from[1];
@@ -436,35 +436,35 @@ EIGEN_STRONG_INLINE Packet4i ploaddup<Packet4i>(const int32_t* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet4f& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<float>(float* to, const Packet4f& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_ALIGNED_STORE __builtin_msa_st_w((Packet4i)from, to, 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<int32_t>(int32_t* to, const Packet4i& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<int32_t>(int32_t* to, const Packet4i& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_ALIGNED_STORE __builtin_msa_st_w(from, to, 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet4f& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<float>(float* to, const Packet4f& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_STORE __builtin_msa_st_w((Packet4i)from, to, 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<int32_t>(int32_t* to, const Packet4i& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<int32_t>(int32_t* to, const Packet4i& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_STORE __builtin_msa_st_w(from, to, 0);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet4f pgather<float, Packet4f>(const float* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet4f pgather<float, Packet4f>(const float* from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   float f = *from;
@@ -476,7 +476,7 @@ EIGEN_DEVICE_FUNC inline Packet4f pgather<float, Packet4f>(const float* from, In
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet4i pgather<int32_t, Packet4i>(const int32_t* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet4i pgather<int32_t, Packet4i>(const int32_t* from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   int32_t i = *from;
@@ -488,7 +488,7 @@ EIGEN_DEVICE_FUNC inline Packet4i pgather<int32_t, Packet4i>(const int32_t* from
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<float, Packet4f>(float* to, const Packet4f& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<float, Packet4f>(float* to, const Packet4f& from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   *to = from[0];
@@ -501,7 +501,7 @@ EIGEN_DEVICE_FUNC inline void pscatter<float, Packet4f>(float* to, const Packet4
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<int32_t, Packet4i>(int32_t* to, const Packet4i& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<int32_t, Packet4i>(int32_t* to, const Packet4i& from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   *to = from[0];
@@ -514,56 +514,56 @@ EIGEN_DEVICE_FUNC inline void pscatter<int32_t, Packet4i>(int32_t* to, const Pac
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<float>(const float* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<float>(const float* addr) {
   EIGEN_MSA_DEBUG;
 
   __builtin_prefetch(addr);
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<int32_t>(const int32_t* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<int32_t>(const int32_t* addr) {
   EIGEN_MSA_DEBUG;
 
   __builtin_prefetch(addr);
 }
 
 template <>
-EIGEN_STRONG_INLINE float pfirst<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr float pfirst<Packet4f>(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return a[0];
 }
 
 template <>
-EIGEN_STRONG_INLINE int32_t pfirst<Packet4i>(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr int32_t pfirst<Packet4i>(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   return a[0];
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f preverse(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f preverse(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_shf_w((v4i32)a, EIGEN_MSA_SHF_I8(3, 2, 1, 0));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i preverse(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr Packet4i preverse(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_shf_w(a, EIGEN_MSA_SHF_I8(3, 2, 1, 0));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pabs(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pabs(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet4f)__builtin_msa_bclri_w((v4u32)a, 31);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pabs(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr Packet4i pabs(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4i zero = __builtin_msa_ldi_w(0);
@@ -571,7 +571,7 @@ EIGEN_STRONG_INLINE Packet4i pabs(const Packet4i& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr float predux<Packet4f>(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4f s = padd(a, (Packet4f)__builtin_msa_shf_w((v4i32)a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -580,7 +580,7 @@ EIGEN_STRONG_INLINE float predux<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE int32_t predux<Packet4i>(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr int32_t predux<Packet4i>(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4i s = padd(a, __builtin_msa_shf_w(a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -591,7 +591,7 @@ EIGEN_STRONG_INLINE int32_t predux<Packet4i>(const Packet4i& a) {
 // Other reduction functions:
 // mul
 template <>
-EIGEN_STRONG_INLINE float predux_mul<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_mul<Packet4f>(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4f p = pmul(a, (Packet4f)__builtin_msa_shf_w((v4i32)a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -600,7 +600,7 @@ EIGEN_STRONG_INLINE float predux_mul<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE int32_t predux_mul<Packet4i>(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr int32_t predux_mul<Packet4i>(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4i p = pmul(a, __builtin_msa_shf_w(a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -610,7 +610,7 @@ EIGEN_STRONG_INLINE int32_t predux_mul<Packet4i>(const Packet4i& a) {
 
 // min
 template <>
-EIGEN_STRONG_INLINE float predux_min<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_min<Packet4f>(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   // Swap 64-bit halves of a.
@@ -634,7 +634,7 @@ EIGEN_STRONG_INLINE float predux_min<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE int32_t predux_min<Packet4i>(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr int32_t predux_min<Packet4i>(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4i m = pmin(a, __builtin_msa_shf_w(a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -644,7 +644,7 @@ EIGEN_STRONG_INLINE int32_t predux_min<Packet4i>(const Packet4i& a) {
 
 // max
 template <>
-EIGEN_STRONG_INLINE float predux_max<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_max<Packet4f>(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   // Swap 64-bit halves of a.
@@ -668,7 +668,7 @@ EIGEN_STRONG_INLINE float predux_max<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE int32_t predux_max<Packet4i>(const Packet4i& a) {
+EIGEN_STRONG_INLINE constexpr int32_t predux_max<Packet4i>(const Packet4i& a) {
   EIGEN_MSA_DEBUG;
 
   Packet4i m = pmax(a, __builtin_msa_shf_w(a, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
@@ -676,7 +676,7 @@ EIGEN_STRONG_INLINE int32_t predux_max<Packet4i>(const Packet4i& a) {
   return m[0];
 }
 
-inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4f, 4>& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4f, 4>& value) {
   os << "[ " << value.packet[0] << "," << std::endl
      << "  " << value.packet[1] << "," << std::endl
      << "  " << value.packet[2] << "," << std::endl
@@ -684,7 +684,7 @@ inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4f, 4>
   return os;
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet4f, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet4f, 4>& kernel) {
   EIGEN_MSA_DEBUG;
 
   v4i32 tmp1, tmp2, tmp3, tmp4;
@@ -700,7 +700,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet4f, 4>& kernel) {
   kernel.packet[3] = (Packet4f)__builtin_msa_ilvod_d((v2i64)tmp4, (v2i64)tmp3);
 }
 
-inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4i, 4>& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4i, 4>& value) {
   os << "[ " << value.packet[0] << "," << std::endl
      << "  " << value.packet[1] << "," << std::endl
      << "  " << value.packet[2] << "," << std::endl
@@ -708,7 +708,7 @@ inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet4i, 4>
   return os;
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet4i, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet4i, 4>& kernel) {
   EIGEN_MSA_DEBUG;
 
   v4i32 tmp1, tmp2, tmp3, tmp4;
@@ -725,14 +725,14 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet4i, 4>& kernel) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f psqrt(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f psqrt(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fsqrt_w(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f prsqrt(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f prsqrt(const Packet4f& a) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -744,7 +744,7 @@ EIGEN_STRONG_INLINE Packet4f prsqrt(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pfloor<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pfloor<Packet4f>(const Packet4f& a) {
   Packet4f v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -763,7 +763,7 @@ EIGEN_STRONG_INLINE Packet4f pfloor<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pceil<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pceil<Packet4f>(const Packet4f& a) {
   Packet4f v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -783,7 +783,7 @@ EIGEN_STRONG_INLINE Packet4f pceil<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pround<Packet4f>(const Packet4f& a) {
+EIGEN_STRONG_INLINE constexpr Packet4f pround<Packet4f>(const Packet4f& a) {
   Packet4f v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -803,16 +803,16 @@ EIGEN_STRONG_INLINE Packet4f pround<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pblend(const Selector<4>& ifPacket, const Packet4f& thenPacket,
-                                    const Packet4f& elsePacket) {
+EIGEN_STRONG_INLINE constexpr Packet4f pblend(const Selector<4>& ifPacket, const Packet4f& thenPacket,
+                                              const Packet4f& elsePacket) {
   Packet4ui select = {ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3]};
   Packet4i mask = __builtin_msa_ceqi_w((Packet4i)select, 0);
   return (Packet4f)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pblend(const Selector<4>& ifPacket, const Packet4i& thenPacket,
-                                    const Packet4i& elsePacket) {
+EIGEN_STRONG_INLINE constexpr Packet4i pblend(const Selector<4>& ifPacket, const Packet4i& thenPacket,
+                                              const Packet4i& elsePacket) {
   Packet4ui select = {ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3]};
   Packet4i mask = __builtin_msa_ceqi_w((Packet4i)select, 0);
   return (Packet4i)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);
@@ -828,17 +828,17 @@ typedef v2u64 Packet2ul;
 #define EIGEN_DECLARE_CONST_Packet2l(NAME, X) const Packet2l p2l_##NAME = {X, X}
 #define EIGEN_DECLARE_CONST_Packet2ul(NAME, X) const Packet2ul p2ul_##NAME = {X, X}
 
-inline std::ostream& operator<<(std::ostream& os, const Packet2d& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet2d& value) {
   os << "[ " << value[0] << ", " << value[1] << " ]";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Packet2l& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet2l& value) {
   os << "[ " << value[0] << ", " << value[1] << " ]";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Packet2ul& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const Packet2ul& value) {
   os << "[ " << value[0] << ", " << value[1] << " ]";
   return os;
 }
@@ -874,7 +874,7 @@ struct unpacket_traits<Packet2d> {
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pset1<Packet2d>(const double& from) {
+EIGEN_STRONG_INLINE constexpr Packet2d pset1<Packet2d>(const double& from) {
   EIGEN_MSA_DEBUG;
 
   Packet2d value = {from, from};
@@ -882,14 +882,14 @@ EIGEN_STRONG_INLINE Packet2d pset1<Packet2d>(const double& from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d padd<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d padd<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fadd_d(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d plset<Packet2d>(const double& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d plset<Packet2d>(const double& a) {
   EIGEN_MSA_DEBUG;
 
   static const Packet2d countdown = {0.0, 1.0};
@@ -897,42 +897,42 @@ EIGEN_STRONG_INLINE Packet2d plset<Packet2d>(const double& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d psub<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d psub<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fsub_d(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pnegate(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pnegate(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_bnegi_d((v2u64)a, 63);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pconj(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pconj(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pmul<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pmul<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fmul_d(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pdiv<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pdiv<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fdiv_d(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pmadd(const Packet2d& a, const Packet2d& b, const Packet2d& c) {
+EIGEN_STRONG_INLINE constexpr Packet2d pmadd(const Packet2d& a, const Packet2d& b, const Packet2d& c) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fmadd_d(c, a, b);
@@ -941,42 +941,42 @@ EIGEN_STRONG_INLINE Packet2d pmadd(const Packet2d& a, const Packet2d& b, const P
 // Logical Operations are not supported for float, so we have to reinterpret casts using MSA
 // intrinsics
 template <>
-EIGEN_STRONG_INLINE Packet2d pand<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pand<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_and_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d por<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d por<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_or_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pxor<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pxor<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_xor_v((v16u8)a, (v16u8)b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pandnot<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pandnot<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
   return pand(a, (Packet2d)__builtin_msa_xori_b((v16u8)b, 255));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pload<Packet2d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet2d pload<Packet2d>(const double* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_LOAD return (Packet2d)__builtin_msa_ld_d(const_cast<double*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pmin<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pmin<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -991,7 +991,7 @@ EIGEN_STRONG_INLINE Packet2d pmin<Packet2d>(const Packet2d& a, const Packet2d& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pmax<Packet2d>(const Packet2d& a, const Packet2d& b) {
+EIGEN_STRONG_INLINE constexpr Packet2d pmax<Packet2d>(const Packet2d& a, const Packet2d& b) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -1006,14 +1006,14 @@ EIGEN_STRONG_INLINE Packet2d pmax<Packet2d>(const Packet2d& a, const Packet2d& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d ploadu<Packet2d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet2d ploadu<Packet2d>(const double* from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_LOAD return (Packet2d)__builtin_msa_ld_d(const_cast<double*>(from), 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet2d ploaddup<Packet2d>(const double* from) {
   EIGEN_MSA_DEBUG;
 
   Packet2d value = {*from, *from};
@@ -1021,21 +1021,21 @@ EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<double>(double* to, const Packet2d& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<double>(double* to, const Packet2d& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_ALIGNED_STORE __builtin_msa_st_d((v2i64)from, to, 0);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<double>(double* to, const Packet2d& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<double>(double* to, const Packet2d& from) {
   EIGEN_MSA_DEBUG;
 
   EIGEN_DEBUG_UNALIGNED_STORE __builtin_msa_st_d((v2i64)from, to, 0);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet2d pgather<double, Packet2d>(const double* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet2d pgather<double, Packet2d>(const double* from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   Packet2d value;
@@ -1046,7 +1046,7 @@ EIGEN_DEVICE_FUNC inline Packet2d pgather<double, Packet2d>(const double* from, 
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<double, Packet2d>(double* to, const Packet2d& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<double, Packet2d>(double* to, const Packet2d& from, Index stride) {
   EIGEN_MSA_DEBUG;
 
   *to = from[0];
@@ -1055,35 +1055,35 @@ EIGEN_DEVICE_FUNC inline void pscatter<double, Packet2d>(double* to, const Packe
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<double>(const double* addr) {
   EIGEN_MSA_DEBUG;
 
   __builtin_prefetch(addr);
 }
 
 template <>
-EIGEN_STRONG_INLINE double pfirst<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr double pfirst<Packet2d>(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return a[0];
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d preverse(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d preverse(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_shf_w((v4i32)a, EIGEN_MSA_SHF_I8(2, 3, 0, 1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pabs(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pabs(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return (Packet2d)__builtin_msa_bclri_d((v2u64)a, 63);
 }
 
 template <>
-EIGEN_STRONG_INLINE double predux<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr double predux<Packet2d>(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   Packet2d s = padd(a, preverse(a));
@@ -1093,7 +1093,7 @@ EIGEN_STRONG_INLINE double predux<Packet2d>(const Packet2d& a) {
 // Other reduction functions:
 // mul
 template <>
-EIGEN_STRONG_INLINE double predux_mul<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_mul<Packet2d>(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   Packet2d p = pmul(a, preverse(a));
@@ -1102,7 +1102,7 @@ EIGEN_STRONG_INLINE double predux_mul<Packet2d>(const Packet2d& a) {
 
 // min
 template <>
-EIGEN_STRONG_INLINE double predux_min<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_min<Packet2d>(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -1117,7 +1117,7 @@ EIGEN_STRONG_INLINE double predux_min<Packet2d>(const Packet2d& a) {
 
 // max
 template <>
-EIGEN_STRONG_INLINE double predux_max<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_max<Packet2d>(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -1131,14 +1131,14 @@ EIGEN_STRONG_INLINE double predux_max<Packet2d>(const Packet2d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d psqrt(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d psqrt(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
   return __builtin_msa_fsqrt_d(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d prsqrt(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d prsqrt(const Packet2d& a) {
   EIGEN_MSA_DEBUG;
 
 #if EIGEN_FAST_MATH
@@ -1149,12 +1149,12 @@ EIGEN_STRONG_INLINE Packet2d prsqrt(const Packet2d& a) {
 #endif
 }
 
-inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet2d, 2>& value) {
+inline constexpr std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet2d, 2>& value) {
   os << "[ " << value.packet[0] << "," << std::endl << "  " << value.packet[1] << " ]";
   return os;
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2d, 2>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet2d, 2>& kernel) {
   EIGEN_MSA_DEBUG;
 
   Packet2d trn1 = (Packet2d)__builtin_msa_ilvev_d((v2i64)kernel.packet[1], (v2i64)kernel.packet[0]);
@@ -1164,7 +1164,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2d, 2>& kernel) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pfloor<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pfloor<Packet2d>(const Packet2d& a) {
   Packet2d v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -1183,7 +1183,7 @@ EIGEN_STRONG_INLINE Packet2d pfloor<Packet2d>(const Packet2d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pceil<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pceil<Packet2d>(const Packet2d& a) {
   Packet2d v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -1203,7 +1203,7 @@ EIGEN_STRONG_INLINE Packet2d pceil<Packet2d>(const Packet2d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pround<Packet2d>(const Packet2d& a) {
+EIGEN_STRONG_INLINE constexpr Packet2d pround<Packet2d>(const Packet2d& a) {
   Packet2d v = a;
   int32_t old_mode, new_mode;
   asm volatile(
@@ -1223,8 +1223,8 @@ EIGEN_STRONG_INLINE Packet2d pround<Packet2d>(const Packet2d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pblend(const Selector<2>& ifPacket, const Packet2d& thenPacket,
-                                    const Packet2d& elsePacket) {
+EIGEN_STRONG_INLINE constexpr Packet2d pblend(const Selector<2>& ifPacket, const Packet2d& thenPacket,
+                                              const Packet2d& elsePacket) {
   Packet2ul select = {ifPacket.select[0], ifPacket.select[1]};
   Packet2l mask = __builtin_msa_ceqi_d((Packet2l)select, 0);
   return (Packet2d)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);

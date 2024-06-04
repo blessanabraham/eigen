@@ -117,23 +117,24 @@ SYCL_PSET1(cl::sycl::cl_double2)
 template <typename packet_type>
 struct get_base_packet {
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type get_ploaddup(sycl_multi_pointer) {}
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr packet_type get_ploaddup(sycl_multi_pointer) {}
 
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type get_pgather(sycl_multi_pointer, Index) {}
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr packet_type get_pgather(sycl_multi_pointer, Index) {}
 };
 
 template <>
 struct get_base_packet<cl::sycl::cl_half8> {
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_half8 get_ploaddup(sycl_multi_pointer from) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_half8 get_ploaddup(sycl_multi_pointer from) {
     return cl::sycl::cl_half8(static_cast<cl::sycl::half>(from[0]), static_cast<cl::sycl::half>(from[0]),
                               static_cast<cl::sycl::half>(from[1]), static_cast<cl::sycl::half>(from[1]),
                               static_cast<cl::sycl::half>(from[2]), static_cast<cl::sycl::half>(from[2]),
                               static_cast<cl::sycl::half>(from[3]), static_cast<cl::sycl::half>(from[3]));
   }
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_half8 get_pgather(sycl_multi_pointer from, Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_half8 get_pgather(sycl_multi_pointer from,
+                                                                                        Index stride) {
     return cl::sycl::cl_half8(
         static_cast<cl::sycl::half>(from[0 * stride]), static_cast<cl::sycl::half>(from[1 * stride]),
         static_cast<cl::sycl::half>(from[2 * stride]), static_cast<cl::sycl::half>(from[3 * stride]),
@@ -142,8 +143,9 @@ struct get_base_packet<cl::sycl::cl_half8> {
   }
 
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set_pscatter(sycl_multi_pointer to, const cl::sycl::cl_half8& from,
-                                                                 Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set_pscatter(sycl_multi_pointer to,
+                                                                           const cl::sycl::cl_half8& from,
+                                                                           Index stride) {
     auto tmp = stride;
     to[0] = Eigen::half(from.s0());
     to[tmp] = Eigen::half(from.s1());
@@ -154,7 +156,7 @@ struct get_base_packet<cl::sycl::cl_half8> {
     to[tmp += stride] = Eigen::half(from.s6());
     to[tmp += stride] = Eigen::half(from.s7());
   }
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_half8 set_plset(const cl::sycl::half& a) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_half8 set_plset(const cl::sycl::half& a) {
     return cl::sycl::cl_half8(static_cast<cl::sycl::half>(a), static_cast<cl::sycl::half>(a + 1),
                               static_cast<cl::sycl::half>(a + 2), static_cast<cl::sycl::half>(a + 3),
                               static_cast<cl::sycl::half>(a + 4), static_cast<cl::sycl::half>(a + 5),
@@ -165,24 +167,26 @@ struct get_base_packet<cl::sycl::cl_half8> {
 template <>
 struct get_base_packet<cl::sycl::cl_float4> {
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_float4 get_ploaddup(sycl_multi_pointer from) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_float4 get_ploaddup(sycl_multi_pointer from) {
     return cl::sycl::cl_float4(from[0], from[0], from[1], from[1]);
   }
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_float4 get_pgather(sycl_multi_pointer from, Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_float4 get_pgather(sycl_multi_pointer from,
+                                                                                         Index stride) {
     return cl::sycl::cl_float4(from[0 * stride], from[1 * stride], from[2 * stride], from[3 * stride]);
   }
 
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set_pscatter(sycl_multi_pointer to, const cl::sycl::cl_float4& from,
-                                                                 Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set_pscatter(sycl_multi_pointer to,
+                                                                           const cl::sycl::cl_float4& from,
+                                                                           Index stride) {
     auto tmp = stride;
     to[0] = from.x();
     to[tmp] = from.y();
     to[tmp += stride] = from.z();
     to[tmp += stride] = from.w();
   }
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_float4 set_plset(const float& a) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_float4 set_plset(const float& a) {
     return cl::sycl::cl_float4(static_cast<float>(a), static_cast<float>(a + 1), static_cast<float>(a + 2),
                                static_cast<float>(a + 3));
   }
@@ -191,33 +195,35 @@ struct get_base_packet<cl::sycl::cl_float4> {
 template <>
 struct get_base_packet<cl::sycl::cl_double2> {
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_double2 get_ploaddup(const sycl_multi_pointer from) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_double2 get_ploaddup(
+      const sycl_multi_pointer from) {
     return cl::sycl::cl_double2(from[0], from[0]);
   }
 
   template <typename sycl_multi_pointer, typename Index>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_double2 get_pgather(const sycl_multi_pointer from,
-                                                                                Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_double2 get_pgather(const sycl_multi_pointer from,
+                                                                                          Index stride) {
     return cl::sycl::cl_double2(from[0 * stride], from[1 * stride]);
   }
 
   template <typename sycl_multi_pointer>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set_pscatter(sycl_multi_pointer to,
-                                                                 const cl::sycl::cl_double2& from, Index stride) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set_pscatter(sycl_multi_pointer to,
+                                                                           const cl::sycl::cl_double2& from,
+                                                                           Index stride) {
     to[0] = from.x();
     to[stride] = from.y();
   }
 
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE cl::sycl::cl_double2 set_plset(const double& a) {
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr cl::sycl::cl_double2 set_plset(const double& a) {
     return cl::sycl::cl_double2(static_cast<double>(a), static_cast<double>(a + 1));
   }
 };
 
-#define SYCL_PLOAD_DUP_SPECILIZE(packet_type)                              \
-  template <>                                                              \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type ploaddup<packet_type>( \
-      const typename unpacket_traits<packet_type>::type* from) {           \
-    return get_base_packet<packet_type>::get_ploaddup(from);               \
+#define SYCL_PLOAD_DUP_SPECILIZE(packet_type)                                        \
+  template <>                                                                        \
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr packet_type ploaddup<packet_type>( \
+      const typename unpacket_traits<packet_type>::type* from) {                     \
+    return get_base_packet<packet_type>::get_ploaddup(from);                         \
   }
 
 SYCL_PLOAD_DUP_SPECILIZE(cl::sycl::cl_half8)
@@ -242,11 +248,11 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_half8 plset<cl::sycl::cl_half
   return get_base_packet<cl::sycl::cl_half8>::set_plset((const cl::sycl::half&)a);
 }
 
-#define SYCL_PGATHER_SPECILIZE(scalar, packet_type)                               \
-  template <>                                                                     \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pgather<scalar, packet_type>( \
-      const typename unpacket_traits<packet_type>::type* from, Index stride) {    \
-    return get_base_packet<packet_type>::get_pgather(from, stride);               \
+#define SYCL_PGATHER_SPECILIZE(scalar, packet_type)                                         \
+  template <>                                                                               \
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr packet_type pgather<scalar, packet_type>( \
+      const typename unpacket_traits<packet_type>::type* from, Index stride) {              \
+    return get_base_packet<packet_type>::get_pgather(from, stride);                         \
   }
 
 SYCL_PGATHER_SPECILIZE(Eigen::half, cl::sycl::cl_half8)
@@ -256,7 +262,7 @@ SYCL_PGATHER_SPECILIZE(double, cl::sycl::cl_double2)
 
 #define SYCL_PSCATTER_SPECILIZE(scalar, packet_type)                                             \
   template <>                                                                                    \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void pscatter<scalar, packet_type>(                      \
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void pscatter<scalar, packet_type>(            \
       typename unpacket_traits<packet_type>::type * to, const packet_type& from, Index stride) { \
     get_base_packet<packet_type>::set_pscatter(to, from, stride);                                \
   }
@@ -562,8 +568,9 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_float4 pblend(
 }
 
 template <>
-inline cl::sycl::cl_double2 pblend(const Selector<unpacket_traits<cl::sycl::cl_double2>::size>& ifPacket,
-                                   const cl::sycl::cl_double2& thenPacket, const cl::sycl::cl_double2& elsePacket) {
+inline constexpr cl::sycl::cl_double2 pblend(const Selector<unpacket_traits<cl::sycl::cl_double2>::size>& ifPacket,
+                                             const cl::sycl::cl_double2& thenPacket,
+                                             const cl::sycl::cl_double2& elsePacket) {
   cl::sycl::cl_long2 condition(ifPacket.select[0] ? 0 : -1, ifPacket.select[1] ? 0 : -1);
   return cl::sycl::select(thenPacket, elsePacket, condition);
 }
