@@ -373,6 +373,10 @@ void test_nextafter() {
          bfloat16(-1.0f) - std::numeric_limits<bfloat16>::epsilon());
   VERIFY(numext::nextafter(bfloat16(-1.0f), std::numeric_limits<bfloat16>::infinity()) ==
          bfloat16(-1.0f) + std::numeric_limits<bfloat16>::epsilon() / bfloat16(2.0f));
+  VERIFY(numext::nextafter((std::numeric_limits<bfloat16>::max)(), std::numeric_limits<bfloat16>::infinity()) ==
+         std::numeric_limits<bfloat16>::infinity());
+  VERIFY(numext::nextafter(-(std::numeric_limits<bfloat16>::max)(), -std::numeric_limits<bfloat16>::infinity()) ==
+         -std::numeric_limits<bfloat16>::infinity());
   VERIFY_BFLOAT16_BITS_EQUAL(numext::nextafter(bfloat16(0.0f), bfloat16(1.0f)), 0x0001);
   VERIFY_BFLOAT16_BITS_EQUAL(numext::nextafter(bfloat16(-0.0f), bfloat16(1.0f)), 0x0000);
   VERIFY_BFLOAT16_BITS_EQUAL(numext::nextafter(bfloat16(0.0f), bfloat16(-1.0f)), 0x8000);
