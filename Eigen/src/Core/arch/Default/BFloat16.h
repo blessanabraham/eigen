@@ -762,8 +762,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC uint16_t bit_cast<uint16_t, Eigen::bfloat1
   return Eigen::bfloat16_impl::raw_bfloat16_as_uint16(src);
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 nextafter(const bfloat16& from,
-                                                         const bfloat16& to) {
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 nextafter(const bfloat16& from, const bfloat16& to) {
   if (numext::isnan EIGEN_NOT_A_MACRO(from)) {
     return from;
   }
