@@ -79,7 +79,8 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Abs2ReturnType abs2() const { return
  * Example: \include Cwise_exp.cpp
  * Output: \verbinclude Cwise_exp.out
  *
- * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_exp">Math functions</a>, exp2(), pow(), log(), sin(), cos()
+ * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_exp">Math functions</a>, exp2(), pow(), log(), sin(),
+ * cos()
  */
 EIGEN_DEVICE_FUNC inline const ExpReturnType exp() const { return ExpReturnType(derived()); }
 
@@ -87,7 +88,8 @@ EIGEN_DEVICE_FUNC inline const ExpReturnType exp() const { return ExpReturnType(
  *
  * This function computes the coefficient-wise base2 exponential, i.e. 2^x.
  *
- * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_exp">Math functions</a>, exp(), pow(), log(), sin(), cos()
+ * \sa <a href="group__CoeffwiseMathFunctions.html#cwisetable_exp">Math functions</a>, exp(), pow(), log(), sin(),
+ * cos()
  */
 EIGEN_DEVICE_FUNC inline const Exp2ReturnType exp2() const { return Exp2ReturnType(derived()); }
 

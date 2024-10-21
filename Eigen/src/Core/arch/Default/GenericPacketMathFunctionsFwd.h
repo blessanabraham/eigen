@@ -167,7 +167,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet generic_round(const Packet& a);
 #define EIGEN_GENERIC_PACKET_FUNCTION(METHOD, PACKET)                                             \
   template <>                                                                                     \
   EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_UNUSED PACKET p##METHOD<PACKET>(const PACKET& _x) { \
-    return generic_##METHOD(_x);                                                              \
+    return generic_##METHOD(_x);                                                                  \
   }
 
 #define EIGEN_FLOAT_PACKET_FUNCTION(METHOD, PACKET) EIGEN_PACKET_FUNCTION(METHOD, float, PACKET)
