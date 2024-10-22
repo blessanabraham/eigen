@@ -191,4 +191,4 @@ EIGEN_DECLARE_TEST(dense_storage) {
   dense_storage_tests<AnnoyingScalar>();
 }
 
-#undef EIGEN_TESTING_PLAINOBJECT_CTOR
+#undef EIGEN_TESTING_PLAINOBJECT_CTORN
