@@ -27,21 +27,15 @@ namespace Eigen {
 
 namespace internal {
 
-template <typename T, int Size>
-struct check_static_allocation_size {
-#if EIGEN_STACK_ALLOCATION_LIMIT
-  EIGEN_STATIC_ASSERT(Size * sizeof(T) <= EIGEN_STACK_ALLOCATION_LIMIT, OBJECT_ALLOCATED_ON_STACK_IS_TOO_BIG)
-#endif
-};
-
 #if defined(EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
-#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(sizemask)
+#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)
 #else
-#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(sizemask)                                                \
-  eigen_assert((internal::is_constant_evaluated() || (std::uintptr_t(array) & (sizemask)) == 0) && \
-               "this assertion is explained here: "                                                \
-               "http://eigen.tuxfamily.org/dox-devel/group__TopicUnalignedArrayAssert.html"        \
-               " **** READ THIS WEB PAGE !!! ****");
+#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)                                                    \
+  eigen_assert((Alignment == 0) ||                                                                      \
+               (internal::is_constant_evaluated() || (std::uintptr_t(array) & (Alignment - 1)) == 0) && \
+                   "this assertion is explained here: "                                                 \
+                   "http://eigen.tuxfamily.org/dox-devel/group__TopicUnalignedArrayAssert.html"         \
+                   " **** READ THIS WEB PAGE !!! ****");
 #endif
 
 /** \internal
@@ -50,19 +44,16 @@ struct check_static_allocation_size {
  */
 template <typename T, int Size, int MatrixOrArrayOptions,
           int Alignment = (MatrixOrArrayOptions & DontAlign) ? 0 : compute_default_alignment<T, Size>::value>
-struct plain_array : check_static_allocation_size<T, Size> {
+struct plain_array {
   EIGEN_ALIGN_TO_BOUNDARY(Alignment) T array[Size];
-#if defined(EIGEN_NO_DEBUG) || defined(EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
+#if defined(EIGEN_NO_DEBUG) || defined(EIGEN_TESTING_PLAINOBJECT_CTOR)
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() = default;
 #else
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() { EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment - 1); }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() {
+    EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment);
+    EIGEN_STATIC_ASSERT(Size * sizeof(T) <= EIGEN_STACK_ALLOCATION_LIMIT, OBJECT_ALLOCATED_ON_STACK_IS_TOO_BIG)
+  }
 #endif
-};
-
-template <typename T, int Size, int MatrixOrArrayOptions>
-struct plain_array<T, Size, MatrixOrArrayOptions, 0> : check_static_allocation_size<T, Size> {
-  T array[Size];
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() = default;
 };
 
 template <typename T, int MatrixOrArrayOptions, int Alignment>
