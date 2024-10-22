@@ -1520,16 +1520,16 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE double exp2(const double& x) {
 template <>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE std::complex<float> exp2(const std::complex<float>& x) {
   float com = ::exp2f(x.real());
-  float res_real = com * ::cosf(EIGEN_LN2 * x.imag());
-  float res_imag = com * ::sinf(EIGEN_LN2 * x.imag());
+  float res_real = com * ::cosf(static_cast<float>(EIGEN_LN2) * x.imag());
+  float res_imag = com * ::sinf(static_cast<float>(EIGEN_LN2) * x.imag());
   return std::complex<float>(res_real, res_imag);
 }
 
 template <>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE std::complex<double> exp2(const std::complex<double>& x) {
   double com = ::exp2(x.real());
-  double res_real = com * ::cos(EIGEN_LN2 * x.imag());
-  double res_imag = com * ::sin(EIGEN_LN2 * x.imag());
+  double res_real = com * ::cos(static_cast<double>(EIGEN_LN2) * x.imag());
+  double res_imag = com * ::sin(static_cast<double>(EIGEN_LN2) * x.imag());
   return std::complex<double>(res_real, res_imag);
 }
 #endif
