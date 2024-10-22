@@ -2473,15 +2473,21 @@ struct unary_pow_impl<Packet, ScalarExponent, true, true, false> {
 // type   | max error (simple product) | max error (twoprod) |
 // -----------------------------------------------------------
 // float  |       35 ulps              |       4 ulps        |
-// double |      363 ulps              |     108 ulps        |
+// double |      363 ulps              |     110 ulps        |
 //
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_exp2(const Packet& x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_exp2(const Packet& _x) {
   typedef typename unpacket_traits<Packet>::type Scalar;
+  constexpr int max_exponent = std::numeric_limits<Scalar>::max_exponent;
+  constexpr int digits = std::numeric_limits<Scalar>::digits;
+  constexpr Scalar max_cap = Scalar(max_exponent + 1);
+  constexpr Scalar min_cap = -Scalar(max_exponent + digits - 1);
+  Packet x = pmax(pmin(_x, pset1<Packet>(max_cap)), pset1<Packet>(min_cap));
   Packet p_hi, p_lo;
   twoprod(pset1<Packet>(Scalar(EIGEN_LN2)), x, p_hi, p_lo);
-  Packet exp_hi = pexp(p_hi);
-  return pselect(pisinf(pabs(x)), exp_hi, pmadd(exp_hi, p_lo, exp_hi));
+  Packet exp2_hi = pexp(p_hi);
+  Packet exp2_lo = padd(pset1<Packet>(Scalar(1)), p_lo);
+  return pmul(exp2_hi, exp2_lo);
 }
 
 template <typename Packet>
