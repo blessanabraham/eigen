@@ -469,7 +469,7 @@ EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet plog2_double(const Pa
     See: http://www.plunk.org/~hatch/rightway.php
  */
 template <typename Packet>
-Packet generic_log1p(const Packet& x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_log1p(const Packet& x) {
   typedef typename unpacket_traits<Packet>::type ScalarType;
   const Packet one = pset1<Packet>(ScalarType(1));
   Packet xp1 = padd(x, one);
@@ -484,7 +484,7 @@ Packet generic_log1p(const Packet& x) {
     See: http://www.plunk.org/~hatch/rightway.php
  */
 template <typename Packet>
-Packet generic_expm1(const Packet& x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_expm1(const Packet& x) {
   typedef typename unpacket_traits<Packet>::type ScalarType;
   const Packet one = pset1<Packet>(ScalarType(1));
   const Packet neg_one = pset1<Packet>(ScalarType(-1));
@@ -2473,20 +2473,15 @@ struct unary_pow_impl<Packet, ScalarExponent, true, true, false> {
 // type   | max error (simple product) | max error (twoprod) |
 // -----------------------------------------------------------
 // float  |       35 ulps              |       4 ulps        |
-// double |      363 ulps              |     110 ulps        |
+// double |      363 ulps              |     108 ulps        |
 //
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_exp2(const Packet& _x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet generic_exp2(const Packet& x) {
   typedef typename unpacket_traits<Packet>::type Scalar;
-  constexpr int max_exponent = Scalar(std::numeric_limits<Scalar>::max_exponent);
-  constexpr int digits = Scalar(std::numeric_limits<Scalar>::digits);
-  constexpr Scalar max_cap = Scalar(max_exponent);
-  constexpr Scalar min_cap = -Scalar(max_exponent + digits - 1);
-  Packet x = pmax(pmin(_x, pset1<Packet>(max_cap)), pset1<Packet>(min_cap));
   Packet p_hi, p_lo;
   twoprod(pset1<Packet>(Scalar(EIGEN_LN2)), x, p_hi, p_lo);
   Packet exp_hi = pexp(p_hi);
-  return pmadd(exp_hi, p_lo, exp_hi);
+  return pselect(pisinf(pabs(x)), exp_hi, pmadd(exp_hi, p_lo, exp_hi));
 }
 
 template <typename Packet>
