@@ -102,10 +102,27 @@ class Array : public PlainObjectBase<Array<Scalar_, Rows_, Cols_, Options_, MaxR
     return Base::_set(other);
   }
 
-  /** This is a special case of the templated operator=. Its purpose is to
-   * prevent a default operator= from hiding the templated operator=.
+  /**
+   * \brief Assigns arrays to each other.
+   *
+   * \note This is a special case of the templated operator=. Its purpose is
+   * to prevent a default operator= from hiding the templated operator=.
+   *
+   * \callgraph
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Array& operator=(const Array& other) { return Base::_set(other); }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array& operator=(const Array& other) { return Base::_set(other); }
+
+  /** \brief Moves the array into the other one.
+   *
+   * \note This is a special case of the templated operator=. Its purpose is
+   * to prevent a default operator= from hiding the templated operator=.
+   *
+   * \callgraph
+   */
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array& operator=(Array&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_assignable<Scalar>::value) {
+    Base::operator=(std::move(other));
+    return *this;
+  }
 
   /** Default constructor.
    *
@@ -122,11 +139,6 @@ class Array : public PlainObjectBase<Array<Scalar_, Rows_, Cols_, Options_, MaxR
 #else
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array() = default;
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array(Array&&) = default;
-  EIGEN_DEVICE_FUNC Array& operator=(Array&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_assignable<Scalar>::value) {
-    Base::operator=(std::move(other));
-    return *this;
-  }
 
   /** \copydoc PlainObjectBase(const Scalar& a0, const Scalar& a1, const Scalar& a2, const Scalar& a3, const
    * ArgTypes&... args)
@@ -227,6 +239,9 @@ class Array : public PlainObjectBase<Array<Scalar_, Rows_, Cols_, Options_, MaxR
 
   /** Copy constructor */
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array(const Array&) = default;
+
+  /** Move constructor */
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array(Array&&) = default;
 
  private:
   struct PrivateType {};
