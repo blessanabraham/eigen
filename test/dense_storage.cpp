@@ -27,12 +27,13 @@ static_assert(std::is_trivially_copyable<DenseStorageD3x3>::value, "DenseStorage
 #endif
 
 static_assert(std::is_trivially_move_constructible<Matrix4f>::value, "Matrix4f not trivially_move_constructible");
+static_assert(std::is_trivially_move_constructible<Array4f>::value, "Array4f not trivially_move_constructible");
 #if !defined(EIGEN_DENSE_STORAGE_CTOR_PLUGIN)
 static_assert(std::is_trivially_copy_constructible<Matrix4f>::value, "Matrix4f not trivially_copy_constructible");
+static_assert(std::is_trivially_copy_constructible<Array4f>::value, "Array4f not trivially_copy_constructible");
 #endif
-#if defined(EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
 static_assert(std::is_trivially_default_constructible<Matrix4f>::value, "Matrix4f not trivially_default_constructible");
-#endif
+static_assert(std::is_trivially_default_constructible<Array4f>::value, "Array4f not trivially_default_constructible");
 
 template <typename T, int Size, int Rows, int Cols>
 void dense_storage_copy(int rows, int cols) {
@@ -191,4 +192,4 @@ EIGEN_DECLARE_TEST(dense_storage) {
   dense_storage_tests<AnnoyingScalar>();
 }
 
-#undef EIGEN_TESTING_PLAINOBJECT_CTORN
+#undef EIGEN_TESTING_PLAINOBJECT_CTOR
