@@ -38,6 +38,13 @@ namespace internal {
                    " **** READ THIS WEB PAGE !!! ****");
 #endif
 
+#if EIGEN_STACK_ALLOCATION_LIMIT
+#define EIGEN_MAKE_STACK_ALLOCATION_ASSERT(X) \
+  EIGEN_STATIC_ASSERT(X <= EIGEN_STACK_ALLOCATION_LIMIT, OBJECT_ALLOCATED_ON_STACK_IS_TOO_BIG)
+#else
+#define EIGEN_MAKE_STACK_ALLOCATION_ASSERT(X)
+#endif
+
 /** \internal
  * Static array. If the MatrixOrArrayOptions require auto-alignment, the array will be automatically aligned:
  * to 16 bytes boundary if the total size is a multiple of 16 bytes.
@@ -50,8 +57,8 @@ struct plain_array {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() = default;
 #else
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() {
-    EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment);
-    EIGEN_STATIC_ASSERT(Size * sizeof(T) <= EIGEN_STACK_ALLOCATION_LIMIT, OBJECT_ALLOCATED_ON_STACK_IS_TOO_BIG)
+    EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)
+    EIGEN_MAKE_STACK_ALLOCATION_ASSERT(Size * sizeof(T))
   }
 #endif
 };
