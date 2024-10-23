@@ -30,10 +30,10 @@ namespace internal {
 #if defined(EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
 #define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)
 #else
-#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)                                                                  \
-  eigen_assert(((Alignment == 0) || internal::is_constant_evaluated() || (std::uintptr_t(array) % Alignment == 0)) && \
-               "this assertion is explained here: "                                                                   \
-               "http://eigen.tuxfamily.org/dox-devel/group__TopicUnalignedArrayAssert.html"                           \
+#define EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)                                              \
+  eigen_assert((internal::is_constant_evaluated() || (std::uintptr_t(array) % Alignment == 0)) && \
+               "this assertion is explained here: "                                               \
+               "http://eigen.tuxfamily.org/dox-devel/group__TopicUnalignedArrayAssert.html"       \
                " **** READ THIS WEB PAGE !!! ****");
 #endif
 
@@ -59,6 +59,16 @@ struct plain_array {
     EIGEN_MAKE_UNALIGNED_ARRAY_ASSERT(Alignment)
     EIGEN_MAKE_STACK_ALLOCATION_ASSERT(Size * sizeof(T))
   }
+#endif
+};
+
+template <typename T, int Size, int MatrixOrArrayOptions>
+struct plain_array<T, Size, MatrixOrArrayOptions, 0> {
+  T array[Size];
+#if defined(EIGEN_NO_DEBUG) || defined(EIGEN_TESTING_PLAINOBJECT_CTOR)
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() = default;
+#else
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr plain_array() { EIGEN_MAKE_STACK_ALLOCATION_ASSERT(Size * sizeof(T)) }
 #endif
 };
 
