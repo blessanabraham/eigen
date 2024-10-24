@@ -246,69 +246,69 @@ struct unpacket_traits<Packet16h> {
 #endif
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pset1<Packet16f>(const float& from) {
+EIGEN_STRONG_INLINE constexpr Packet16f pset1<Packet16f>(const float& from) {
   return _mm512_set1_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pset1<Packet8d>(const double& from) {
+EIGEN_STRONG_INLINE constexpr Packet8d pset1<Packet8d>(const double& from) {
   return _mm512_set1_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pset1<Packet16i>(const int& from) {
+EIGEN_STRONG_INLINE constexpr Packet16i pset1<Packet16i>(const int& from) {
   return _mm512_set1_epi32(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pset1<Packet8l>(const int64_t& from) {
+EIGEN_STRONG_INLINE constexpr Packet8l pset1<Packet8l>(const int64_t& from) {
   return _mm512_set1_epi64(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pset1frombits<Packet16f>(unsigned int from) {
+EIGEN_STRONG_INLINE constexpr Packet16f pset1frombits<Packet16f>(unsigned int from) {
   return _mm512_castsi512_ps(_mm512_set1_epi32(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pset1frombits<Packet8d>(const numext::uint64_t from) {
+EIGEN_STRONG_INLINE constexpr Packet8d pset1frombits<Packet8d>(const numext::uint64_t from) {
   return _mm512_castsi512_pd(_mm512_set1_epi64(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pzero(const Packet16f& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet16f pzero(const Packet16f& /*a*/) {
   return _mm512_setzero_ps();
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pzero(const Packet8d& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet8d pzero(const Packet8d& /*a*/) {
   return _mm512_setzero_pd();
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pzero(const Packet16i& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet16i pzero(const Packet16i& /*a*/) {
   return _mm512_setzero_si512();
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l pzero(const Packet8l& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet8l pzero(const Packet8l& /*a*/) {
   return _mm512_setzero_si512();
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f peven_mask(const Packet16f& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet16f peven_mask(const Packet16f& /*a*/) {
   return _mm512_castsi512_ps(_mm512_set_epi32(0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i peven_mask(const Packet16i& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet16i peven_mask(const Packet16i& /*a*/) {
   return _mm512_set_epi32(0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d peven_mask(const Packet8d& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet8d peven_mask(const Packet8d& /*a*/) {
   return _mm512_castsi512_pd(_mm512_set_epi32(0, 0, -1, -1, 0, 0, -1, -1, 0, 0, -1, -1, 0, 0, -1, -1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l peven_mask(const Packet8l& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet8l peven_mask(const Packet8l& /*a*/) {
   return _mm512_set_epi32(0, 0, -1, -1, 0, 0, -1, -1, 0, 0, -1, -1, 0, 0, -1, -1);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pload1<Packet16f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet16f pload1<Packet16f>(const float* from) {
 #if (EIGEN_COMP_GNUC != 0) || (EIGEN_COMP_CLANG != 0)
   // Inline asm here helps reduce some register spilling in TRSM kernels.
   // See note in unrolls::gemm::microKernel in TrsmKernel.h
@@ -320,7 +320,7 @@ EIGEN_STRONG_INLINE Packet16f pload1<Packet16f>(const float* from) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pload1<Packet8d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet8d pload1<Packet8d>(const double* from) {
 #if (EIGEN_COMP_GNUC != 0) || (EIGEN_COMP_CLANG != 0)
   Packet8d ret;
   __asm__("vbroadcastsd %[mem], %[dst]" : [dst] "=v"(ret) : [mem] "m"(*from));
@@ -331,70 +331,70 @@ EIGEN_STRONG_INLINE Packet8d pload1<Packet8d>(const double* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f plset<Packet16f>(const float& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f plset<Packet16f>(const float& a) {
   return _mm512_add_ps(_mm512_set1_ps(a), _mm512_set_ps(15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f,
                                                         6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d plset<Packet8d>(const double& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d plset<Packet8d>(const double& a) {
   return _mm512_add_pd(_mm512_set1_pd(a), _mm512_set_pd(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i plset<Packet16i>(const int& a) {
+EIGEN_STRONG_INLINE constexpr Packet16i plset<Packet16i>(const int& a) {
   return _mm512_add_epi32(_mm512_set1_epi32(a), _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l plset<Packet8l>(const int64_t& a) {
+EIGEN_STRONG_INLINE constexpr Packet8l plset<Packet8l>(const int64_t& a) {
   return _mm512_add_epi64(_mm512_set1_epi64(a), _mm512_set_epi64(7, 6, 5, 4, 3, 2, 1, 0));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f padd<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f padd<Packet16f>(const Packet16f& a, const Packet16f& b) {
   return _mm512_add_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d padd<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d padd<Packet8d>(const Packet8d& a, const Packet8d& b) {
   return _mm512_add_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i padd<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i padd<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_add_epi32(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l padd<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l padd<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_add_epi64(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f padd<Packet16f>(const Packet16f& a, const Packet16f& b, uint16_t umask) {
+EIGEN_STRONG_INLINE constexpr Packet16f padd<Packet16f>(const Packet16f& a, const Packet16f& b, uint16_t umask) {
   __mmask16 mask = static_cast<__mmask16>(umask);
   return _mm512_maskz_add_ps(mask, a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d padd<Packet8d>(const Packet8d& a, const Packet8d& b, uint8_t umask) {
+EIGEN_STRONG_INLINE constexpr Packet8d padd<Packet8d>(const Packet8d& a, const Packet8d& b, uint8_t umask) {
   __mmask8 mask = static_cast<__mmask8>(umask);
   return _mm512_maskz_add_pd(mask, a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f psub<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f psub<Packet16f>(const Packet16f& a, const Packet16f& b) {
   return _mm512_sub_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d psub<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d psub<Packet8d>(const Packet8d& a, const Packet8d& b) {
   return _mm512_sub_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i psub<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i psub<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_sub_epi32(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l psub<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l psub<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_sub_epi64(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pnegate(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pnegate(const Packet16f& a) {
   // NOTE: MSVC seems to struggle with _mm512_set1_epi32, leading to random results.
   //       The intel docs give it a relatively high latency as well, so we're probably
   //       better off with using _mm512_set_epi32 directly anyways.
@@ -404,52 +404,52 @@ EIGEN_STRONG_INLINE Packet16f pnegate(const Packet16f& a) {
   return _mm512_castsi512_ps(_mm512_xor_epi32(_mm512_castps_si512(a), mask));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pnegate(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pnegate(const Packet8d& a) {
   const __m512i mask =
       _mm512_set_epi64(0x8000000000000000ULL, 0x8000000000000000ULL, 0x8000000000000000ULL, 0x8000000000000000ULL,
                        0x8000000000000000ULL, 0x8000000000000000ULL, 0x8000000000000000ULL, 0x8000000000000000ULL);
   return _mm512_castsi512_pd(_mm512_xor_epi64(_mm512_castpd_si512(a), mask));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pnegate(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr Packet16i pnegate(const Packet16i& a) {
   return _mm512_sub_epi32(_mm512_setzero_si512(), a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pnegate(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr Packet8l pnegate(const Packet8l& a) {
   return _mm512_sub_epi64(_mm512_setzero_si512(), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pconj(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pconj(const Packet16f& a) {
   return a;
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pconj(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pconj(const Packet8d& a) {
   return a;
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pconj(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr Packet16i pconj(const Packet16i& a) {
   return a;
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pconj(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr Packet8l pconj(const Packet8l& a) {
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmul<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmul<Packet16f>(const Packet16f& a, const Packet16f& b) {
   return _mm512_mul_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmul<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmul<Packet8d>(const Packet8d& a, const Packet8d& b) {
   return _mm512_mul_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pmul<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pmul<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_mullo_epi32(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pmul<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pmul<Packet8l>(const Packet8l& a, const Packet8l& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_mullo_epi64(a, b);
 #else
@@ -458,17 +458,17 @@ EIGEN_STRONG_INLINE Packet8l pmul<Packet8l>(const Packet8l& a, const Packet8l& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pdiv<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pdiv<Packet16f>(const Packet16f& a, const Packet16f& b) {
   return _mm512_div_ps(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pdiv<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pdiv<Packet8d>(const Packet8d& a, const Packet8d& b) {
   return _mm512_div_pd(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pdiv<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pdiv<Packet16i>(const Packet16i& a, const Packet16i& b) {
   Packet8i q_lo = pdiv<Packet8i>(_mm512_extracti64x4_epi64(a, 0), _mm512_extracti64x4_epi64(b, 0));
   Packet8i q_hi = pdiv<Packet8i>(_mm512_extracti64x4_epi64(a, 1), _mm512_extracti64x4_epi64(b, 1));
   return _mm512_inserti64x4(_mm512_castsi256_si512(q_lo), q_hi, 1);
@@ -476,178 +476,178 @@ EIGEN_STRONG_INLINE Packet16i pdiv<Packet16i>(const Packet16i& a, const Packet16
 
 #ifdef EIGEN_VECTORIZE_FMA
 template <>
-EIGEN_STRONG_INLINE Packet16f pmadd(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmadd(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
   return _mm512_fmadd_ps(a, b, c);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmadd(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmadd(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
   return _mm512_fmadd_pd(a, b, c);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmsub(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmsub(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
   return _mm512_fmsub_ps(a, b, c);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmsub(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmsub(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
   return _mm512_fmsub_pd(a, b, c);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pnmadd(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
+EIGEN_STRONG_INLINE constexpr Packet16f pnmadd(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
   return _mm512_fnmadd_ps(a, b, c);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pnmadd(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
+EIGEN_STRONG_INLINE constexpr Packet8d pnmadd(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
   return _mm512_fnmadd_pd(a, b, c);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pnmsub(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
+EIGEN_STRONG_INLINE constexpr Packet16f pnmsub(const Packet16f& a, const Packet16f& b, const Packet16f& c) {
   return _mm512_fnmsub_ps(a, b, c);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pnmsub(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
+EIGEN_STRONG_INLINE constexpr Packet8d pnmsub(const Packet8d& a, const Packet8d& b, const Packet8d& c) {
   return _mm512_fnmsub_pd(a, b, c);
 }
 #endif
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet16f pselect(const Packet16f& mask, const Packet16f& a, const Packet16f& b) {
+EIGEN_DEVICE_FUNC inline constexpr Packet16f pselect(const Packet16f& mask, const Packet16f& a, const Packet16f& b) {
   __mmask16 mask16 = _mm512_cmpeq_epi32_mask(_mm512_castps_si512(mask), _mm512_setzero_epi32());
   return _mm512_mask_blend_ps(mask16, a, b);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet16i pselect(const Packet16i& mask, const Packet16i& a, const Packet16i& b) {
+EIGEN_DEVICE_FUNC inline constexpr Packet16i pselect(const Packet16i& mask, const Packet16i& a, const Packet16i& b) {
   __mmask16 mask16 = _mm512_cmpeq_epi32_mask(mask, _mm512_setzero_epi32());
   return _mm512_mask_blend_epi32(mask16, a, b);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet8l pselect(const Packet8l& mask, const Packet8l& a, const Packet8l& b) {
+EIGEN_DEVICE_FUNC inline constexpr Packet8l pselect(const Packet8l& mask, const Packet8l& a, const Packet8l& b) {
   __mmask8 mask8 = _mm512_cmpeq_epi64_mask(mask, _mm512_setzero_si512());
   return _mm512_mask_blend_epi64(mask8, a, b);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet8d pselect(const Packet8d& mask, const Packet8d& a, const Packet8d& b) {
+EIGEN_DEVICE_FUNC inline constexpr Packet8d pselect(const Packet8d& mask, const Packet8d& a, const Packet8d& b) {
   __mmask8 mask8 = _mm512_cmp_epi64_mask(_mm512_castpd_si512(mask), _mm512_setzero_epi32(), _MM_CMPINT_EQ);
   return _mm512_mask_blend_pd(mask8, a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmin<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmin<Packet16f>(const Packet16f& a, const Packet16f& b) {
   // Arguments are reversed to match NaN propagation behavior of std::min.
   return _mm512_min_ps(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmin<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmin<Packet8d>(const Packet8d& a, const Packet8d& b) {
   // Arguments are reversed to match NaN propagation behavior of std::min.
   return _mm512_min_pd(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pmin<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pmin<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_min_epi32(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pmin<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pmin<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_min_epi64(b, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmax<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmax<Packet16f>(const Packet16f& a, const Packet16f& b) {
   // Arguments are reversed to match NaN propagation behavior of std::max.
   return _mm512_max_ps(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmax<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmax<Packet8d>(const Packet8d& a, const Packet8d& b) {
   // Arguments are reversed to match NaN propagation behavior of std::max.
   return _mm512_max_pd(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pmax<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pmax<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_max_epi32(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pmax<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pmax<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_max_epi64(b, a);
 }
 
 // Add specializations for min/max with prescribed NaN propagation.
 template <>
-EIGEN_STRONG_INLINE Packet16f pmin<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmin<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_numbers(a, b, pmin<Packet16f>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmin<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmin<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_numbers(a, b, pmin<Packet8d>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f pmax<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmax<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_numbers(a, b, pmax<Packet16f>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmax<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmax<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_numbers(a, b, pmax<Packet8d>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f pmin<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmin<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_nan(a, b, pmin<Packet16f>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmin<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmin<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_nan(a, b, pmin<Packet8d>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f pmax<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pmax<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_nan(a, b, pmax<Packet16f>);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmax<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pmax<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_nan(a, b, pmax<Packet8d>);
 }
 
 #ifdef EIGEN_VECTORIZE_AVX512DQ
 template <int I_>
-EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) {
+EIGEN_STRONG_INLINE constexpr Packet8f extract256(Packet16f x) {
   return _mm512_extractf32x8_ps(x, I_);
 }
 template <int I_>
-EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) {
+EIGEN_STRONG_INLINE constexpr Packet2d extract128(Packet8d x) {
   return _mm512_extractf64x2_pd(x, I_);
 }
-EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) {
+EIGEN_STRONG_INLINE constexpr Packet16f cat256(Packet8f a, Packet8f b) {
   return _mm512_insertf32x8(_mm512_castps256_ps512(a), b, 1);
 }
-EIGEN_STRONG_INLINE Packet16i cat256i(Packet8i a, Packet8i b) {
+EIGEN_STRONG_INLINE constexpr Packet16i cat256i(Packet8i a, Packet8i b) {
   return _mm512_inserti32x8(_mm512_castsi256_si512(a), b, 1);
 }
 #else
 // AVX512F does not define _mm512_extractf32x8_ps to extract _m256 from _m512
 template <int I_>
-EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) {
+EIGEN_STRONG_INLINE constexpr Packet8f extract256(Packet16f x) {
   return _mm256_castsi256_ps(_mm512_extracti64x4_epi64(_mm512_castps_si512(x), I_));
 }
 
 // AVX512F does not define _mm512_extractf64x2_pd to extract _m128 from _m512
 template <int I_>
-EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) {
+EIGEN_STRONG_INLINE constexpr Packet2d extract128(Packet8d x) {
   return _mm_castsi128_pd(_mm512_extracti32x4_epi32(_mm512_castpd_si512(x), I_));
 }
 
-EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) {
+EIGEN_STRONG_INLINE constexpr Packet16f cat256(Packet8f a, Packet8f b) {
   return _mm512_castsi512_ps(
       _mm512_inserti64x4(_mm512_castsi256_si512(_mm256_castps_si256(a)), _mm256_castps_si256(b), 1));
 }
-EIGEN_STRONG_INLINE Packet16i cat256i(Packet8i a, Packet8i b) {
+EIGEN_STRONG_INLINE constexpr Packet16i cat256i(Packet8i a, Packet8i b) {
   return _mm512_inserti64x4(_mm512_castsi256_si512(a), b, 1);
 }
 #endif
 
 // Helper function for bit packing snippet of low precision comparison.
 // It packs the flags from 32x16 to 16x16.
-EIGEN_STRONG_INLINE __m256i Pack32To16(Packet16f rf) {
+EIGEN_STRONG_INLINE constexpr __m256i Pack32To16(Packet16f rf) {
   // Split data into small pieces and handle with AVX instructions
   // to guarantee internal order of vector.
   // Operation:
@@ -663,155 +663,155 @@ EIGEN_STRONG_INLINE __m256i Pack32To16(Packet16f rf) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pisnan(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pisnan(const Packet16f& a) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, a, _CMP_UNORD_Q);
   return _mm512_castsi512_ps(_mm512_maskz_set1_epi32(mask, int32_t(-1)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pcmp_eq(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pcmp_eq(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_EQ_OQ);
   return _mm512_castsi512_ps(_mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f pcmp_le(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pcmp_le(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_LE_OQ);
   return _mm512_castsi512_ps(_mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pcmp_lt(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pcmp_lt(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_LT_OQ);
   return _mm512_castsi512_ps(_mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pcmp_lt_or_nan(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pcmp_lt_or_nan(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_NGE_UQ);
   return _mm512_castsi512_ps(_mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pcmp_eq(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pcmp_eq(const Packet16i& a, const Packet16i& b) {
   __mmask16 mask = _mm512_cmp_epi32_mask(a, b, _MM_CMPINT_EQ);
   return _mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pcmp_le(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pcmp_le(const Packet16i& a, const Packet16i& b) {
   __mmask16 mask = _mm512_cmp_epi32_mask(a, b, _MM_CMPINT_LE);
   return _mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pcmp_lt(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pcmp_lt(const Packet16i& a, const Packet16i& b) {
   __mmask16 mask = _mm512_cmp_epi32_mask(a, b, _MM_CMPINT_LT);
   return _mm512_mask_set1_epi32(_mm512_setzero_epi32(), mask, int32_t(-1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l pcmp_eq(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pcmp_eq(const Packet8l& a, const Packet8l& b) {
   __mmask8 mask = _mm512_cmp_epi64_mask(a, b, _MM_CMPINT_EQ);
   return _mm512_mask_set1_epi64(_mm512_setzero_si512(), mask, int64_t(-1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pcmp_le(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pcmp_le(const Packet8l& a, const Packet8l& b) {
   __mmask8 mask = _mm512_cmp_epi64_mask(a, b, _MM_CMPINT_LE);
   return _mm512_mask_set1_epi64(_mm512_setzero_si512(), mask, int64_t(-1));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pcmp_lt(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pcmp_lt(const Packet8l& a, const Packet8l& b) {
   __mmask8 mask = _mm512_cmp_epi64_mask(a, b, _MM_CMPINT_LT);
   return _mm512_mask_set1_epi64(_mm512_setzero_si512(), mask, int64_t(-1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_eq(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pcmp_eq(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_EQ_OQ);
   return _mm512_castsi512_pd(_mm512_mask_set1_epi64(_mm512_setzero_epi32(), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_le(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pcmp_le(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_LE_OQ);
   return _mm512_castsi512_pd(_mm512_mask_set1_epi64(_mm512_setzero_epi32(), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_lt(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pcmp_lt(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_LT_OQ);
   return _mm512_castsi512_pd(_mm512_mask_set1_epi64(_mm512_setzero_epi32(), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_lt_or_nan(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pcmp_lt_or_nan(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_NGE_UQ);
   return _mm512_castsi512_pd(_mm512_mask_set1_epi64(_mm512_setzero_epi32(), mask, 0xffffffffffffffffu));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f print<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f print<Packet16f>(const Packet16f& a) {
   return _mm512_roundscale_ps(a, _MM_FROUND_CUR_DIRECTION);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d print<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d print<Packet8d>(const Packet8d& a) {
   return _mm512_roundscale_pd(a, _MM_FROUND_CUR_DIRECTION);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pceil<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pceil<Packet16f>(const Packet16f& a) {
   return _mm512_roundscale_ps(a, _MM_FROUND_TO_POS_INF);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pceil<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pceil<Packet8d>(const Packet8d& a) {
   return _mm512_roundscale_pd(a, _MM_FROUND_TO_POS_INF);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pfloor<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pfloor<Packet16f>(const Packet16f& a) {
   return _mm512_roundscale_ps(a, _MM_FROUND_TO_NEG_INF);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pfloor<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pfloor<Packet8d>(const Packet8d& a) {
   return _mm512_roundscale_pd(a, _MM_FROUND_TO_NEG_INF);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ptrunc<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f ptrunc<Packet16f>(const Packet16f& a) {
   return _mm512_roundscale_ps(a, _MM_FROUND_TO_ZERO);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d ptrunc<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d ptrunc<Packet8d>(const Packet8d& a) {
   return _mm512_roundscale_pd(a, _MM_FROUND_TO_ZERO);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i ptrue<Packet16i>(const Packet16i& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet16i ptrue<Packet16i>(const Packet16i& /*a*/) {
   return _mm512_set1_epi32(int32_t(-1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l ptrue<Packet8l>(const Packet8l& /*a*/) {
+EIGEN_STRONG_INLINE constexpr Packet8l ptrue<Packet8l>(const Packet8l& /*a*/) {
   return _mm512_set1_epi64(int64_t(-1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ptrue<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f ptrue<Packet16f>(const Packet16f& a) {
   return _mm512_castsi512_ps(ptrue<Packet16i>(_mm512_castps_si512(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d ptrue<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d ptrue<Packet8d>(const Packet8d& a) {
   return _mm512_castsi512_pd(ptrue<Packet16i>(_mm512_castpd_si512(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pand<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pand<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_and_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l pand<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pand<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_and_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pand<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pand<Packet16f>(const Packet16f& a, const Packet16f& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_and_ps(a, b);
 #else
@@ -819,7 +819,7 @@ EIGEN_STRONG_INLINE Packet16f pand<Packet16f>(const Packet16f& a, const Packet16
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pand<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pand<Packet8d>(const Packet8d& a, const Packet8d& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_and_pd(a, b);
 #else
@@ -835,17 +835,17 @@ EIGEN_STRONG_INLINE Packet8d pand<Packet8d>(const Packet8d& a, const Packet8d& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i por<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i por<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_or_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l por<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l por<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_or_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f por<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f por<Packet16f>(const Packet16f& a, const Packet16f& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_or_ps(a, b);
 #else
@@ -854,7 +854,7 @@ EIGEN_STRONG_INLINE Packet16f por<Packet16f>(const Packet16f& a, const Packet16f
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d por<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d por<Packet8d>(const Packet8d& a, const Packet8d& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_or_pd(a, b);
 #else
@@ -863,17 +863,17 @@ EIGEN_STRONG_INLINE Packet8d por<Packet8d>(const Packet8d& a, const Packet8d& b)
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pxor<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pxor<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_xor_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l pxor<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pxor<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_xor_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16f& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_xor_ps(a, b);
 #else
@@ -882,7 +882,7 @@ EIGEN_STRONG_INLINE Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_xor_pd(a, b);
 #else
@@ -891,17 +891,17 @@ EIGEN_STRONG_INLINE Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pandnot<Packet16i>(const Packet16i& a, const Packet16i& b) {
+EIGEN_STRONG_INLINE constexpr Packet16i pandnot<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_andnot_si512(b, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l pandnot<Packet8l>(const Packet8l& a, const Packet8l& b) {
+EIGEN_STRONG_INLINE constexpr Packet8l pandnot<Packet8l>(const Packet8l& a, const Packet8l& b) {
   return _mm512_andnot_si512(b, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pandnot<Packet16f>(const Packet16f& a, const Packet16f& b) {
+EIGEN_STRONG_INLINE constexpr Packet16f pandnot<Packet16f>(const Packet16f& a, const Packet16f& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_andnot_ps(b, a);
 #else
@@ -909,7 +909,7 @@ EIGEN_STRONG_INLINE Packet16f pandnot<Packet16f>(const Packet16f& a, const Packe
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pandnot<Packet8d>(const Packet8d& a, const Packet8d& b) {
+EIGEN_STRONG_INLINE constexpr Packet8d pandnot<Packet8d>(const Packet8d& a, const Packet8d& b) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_andnot_pd(b, a);
 #else
@@ -918,14 +918,14 @@ EIGEN_STRONG_INLINE Packet8d pandnot<Packet8d>(const Packet8d& a, const Packet8d
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pround<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pround<Packet16f>(const Packet16f& a) {
   // Work-around for default std::round rounding mode.
   const Packet16f mask = pset1frombits<Packet16f>(static_cast<numext::uint32_t>(0x80000000u));
   const Packet16f prev0dot5 = pset1frombits<Packet16f>(static_cast<numext::uint32_t>(0x3EFFFFFFu));
   return _mm512_roundscale_ps(padd(por(pand(a, mask), prev0dot5), a), _MM_FROUND_TO_ZERO);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pround<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pround<Packet8d>(const Packet8d& a) {
   // Work-around for default std::round rounding mode.
   const Packet8d mask = pset1frombits<Packet8d>(static_cast<numext::uint64_t>(0x8000000000000000ull));
   const Packet8d prev0dot5 = pset1frombits<Packet8d>(static_cast<numext::uint64_t>(0x3FDFFFFFFFFFFFFFull));
@@ -933,76 +933,76 @@ EIGEN_STRONG_INLINE Packet8d pround<Packet8d>(const Packet8d& a) {
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet16i parithmetic_shift_right(Packet16i a) {
+EIGEN_STRONG_INLINE constexpr Packet16i parithmetic_shift_right(Packet16i a) {
   return _mm512_srai_epi32(a, N);
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet16i plogical_shift_right(Packet16i a) {
+EIGEN_STRONG_INLINE constexpr Packet16i plogical_shift_right(Packet16i a) {
   return _mm512_srli_epi32(a, N);
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet16i plogical_shift_left(Packet16i a) {
+EIGEN_STRONG_INLINE constexpr Packet16i plogical_shift_left(Packet16i a) {
   return _mm512_slli_epi32(a, N);
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet8l parithmetic_shift_right(Packet8l a) {
+EIGEN_STRONG_INLINE constexpr Packet8l parithmetic_shift_right(Packet8l a) {
   return _mm512_srai_epi64(a, N);
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet8l plogical_shift_right(Packet8l a) {
+EIGEN_STRONG_INLINE constexpr Packet8l plogical_shift_right(Packet8l a) {
   return _mm512_srli_epi64(a, N);
 }
 
 template <int N>
-EIGEN_STRONG_INLINE Packet8l plogical_shift_left(Packet8l a) {
+EIGEN_STRONG_INLINE constexpr Packet8l plogical_shift_left(Packet8l a) {
   return _mm512_slli_epi64(a, N);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pload<Packet16f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet16f pload<Packet16f>(const float* from) {
   EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pload<Packet8d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet8d pload<Packet8d>(const double* from) {
   EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pload<Packet16i>(const int* from) {
+EIGEN_STRONG_INLINE constexpr Packet16i pload<Packet16i>(const int* from) {
   EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_epi64(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pload<Packet8l>(const int64_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet8l pload<Packet8l>(const int64_t* from) {
   EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_epi64(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet16f ploadu<Packet16f>(const float* from) {
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d ploadu<Packet8d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet8d ploadu<Packet8d>(const double* from) {
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i ploadu<Packet16i>(const int* from) {
+EIGEN_STRONG_INLINE constexpr Packet16i ploadu<Packet16i>(const int* from) {
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_epi32(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l ploadu<Packet8l>(const int64_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet8l ploadu<Packet8l>(const int64_t* from) {
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_epi64(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from, uint16_t umask) {
+EIGEN_STRONG_INLINE constexpr Packet16f ploadu<Packet16f>(const float* from, uint16_t umask) {
   __mmask16 mask = static_cast<__mmask16>(umask);
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_maskz_loadu_ps(mask, from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d ploadu<Packet8d>(const double* from, uint8_t umask) {
+EIGEN_STRONG_INLINE constexpr Packet8d ploadu<Packet8d>(const double* from, uint8_t umask) {
   __mmask8 mask = static_cast<__mmask8>(umask);
   EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_maskz_loadu_pd(mask, from);
 }
@@ -1010,7 +1010,7 @@ EIGEN_STRONG_INLINE Packet8d ploadu<Packet8d>(const double* from, uint8_t umask)
 // Loads 8 floats from memory a returns the packet
 // {a0, a0  a1, a1, a2, a2, a3, a3, a4, a4, a5, a5, a6, a6, a7, a7}
 template <>
-EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet16f ploaddup<Packet16f>(const float* from) {
   // an unaligned load is required here as there is no requirement
   // on the alignment of input pointer 'from'
   __m256i low_half = _mm256_castps_si256(_mm256_loadu_ps(from));
@@ -1022,7 +1022,7 @@ EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
 // Loads 4 doubles from memory a returns the packet {a0, a0,  a1, a1, a2, a2, a3,
 // a3}
 template <>
-EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet8d ploaddup<Packet8d>(const double* from) {
   Packet8d tmp = _mm512_castpd256_pd512(ploadu<Packet4d>(from));
   const Packet8l scatter_mask = _mm512_set_epi64(3, 3, 2, 2, 1, 1, 0, 0);
   return _mm512_permutexvar_pd(scatter_mask, tmp);
@@ -1031,7 +1031,7 @@ EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
 // Loads 4 int64_t from memory a returns the packet {a0, a0,  a1, a1, a2, a2, a3,
 // a3}
 template <>
-EIGEN_STRONG_INLINE Packet8l ploaddup<Packet8l>(const int64_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet8l ploaddup<Packet8l>(const int64_t* from) {
   Packet8l tmp = _mm512_castsi256_si512(ploadu<Packet4l>(from));
   const Packet8l scatter_mask = _mm512_set_epi64(3, 3, 2, 2, 1, 1, 0, 0);
   return _mm512_permutexvar_epi64(scatter_mask, tmp);
@@ -1040,7 +1040,7 @@ EIGEN_STRONG_INLINE Packet8l ploaddup<Packet8l>(const int64_t* from) {
 // Loads 8 integers from memory and returns the packet
 // {a0, a0  a1, a1, a2, a2, a3, a3, a4, a4, a5, a5, a6, a6, a7, a7}
 template <>
-EIGEN_STRONG_INLINE Packet16i ploaddup<Packet16i>(const int* from) {
+EIGEN_STRONG_INLINE constexpr Packet16i ploaddup<Packet16i>(const int* from) {
   __m256i low_half = _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
   __m512 even_elements = _mm512_castsi512_ps(_mm512_cvtepu32_epi64(low_half));
   __m512 pairs = _mm512_permute_ps(even_elements, _MM_SHUFFLE(2, 2, 0, 0));
@@ -1050,7 +1050,7 @@ EIGEN_STRONG_INLINE Packet16i ploaddup<Packet16i>(const int* from) {
 // Loads 4 floats from memory a returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1, a2, a2, a2, a2, a3, a3, a3, a3}
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadquad<Packet16f>(const float* from) {
+EIGEN_STRONG_INLINE constexpr Packet16f ploadquad<Packet16f>(const float* from) {
   Packet16f tmp = _mm512_castps128_ps512(ploadu<Packet4f>(from));
   const Packet16i scatter_mask = _mm512_set_epi32(3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0);
   return _mm512_permutexvar_ps(scatter_mask, tmp);
@@ -1059,7 +1059,7 @@ EIGEN_STRONG_INLINE Packet16f ploadquad<Packet16f>(const float* from) {
 // Loads 2 doubles from memory a returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1}
 template <>
-EIGEN_STRONG_INLINE Packet8d ploadquad<Packet8d>(const double* from) {
+EIGEN_STRONG_INLINE constexpr Packet8d ploadquad<Packet8d>(const double* from) {
   __m256d lane0 = _mm256_set1_pd(*from);
   __m256d lane1 = _mm256_set1_pd(*(from + 1));
   __m512d tmp = _mm512_undefined_pd();
@@ -1070,7 +1070,7 @@ EIGEN_STRONG_INLINE Packet8d ploadquad<Packet8d>(const double* from) {
 // Loads 2 int64_t from memory a returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1}
 template <>
-EIGEN_STRONG_INLINE Packet8l ploadquad<Packet8l>(const int64_t* from) {
+EIGEN_STRONG_INLINE constexpr Packet8l ploadquad<Packet8l>(const int64_t* from) {
   __m256i lane0 = _mm256_set1_epi64x(*from);
   __m256i lane1 = _mm256_set1_epi64x(*(from + 1));
   __m512i tmp = _mm512_undefined_epi32();
@@ -1081,62 +1081,62 @@ EIGEN_STRONG_INLINE Packet8l ploadquad<Packet8l>(const int64_t* from) {
 // Loads 4 integers from memory and returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1, a2, a2, a2, a2, a3, a3, a3, a3}
 template <>
-EIGEN_STRONG_INLINE Packet16i ploadquad<Packet16i>(const int* from) {
+EIGEN_STRONG_INLINE constexpr Packet16i ploadquad<Packet16i>(const int* from) {
   Packet16i tmp = _mm512_castsi128_si512(ploadu<Packet4i>(from));
   const Packet16i scatter_mask = _mm512_set_epi32(3, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0);
   return _mm512_permutexvar_epi32(scatter_mask, tmp);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet16f& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<float>(float* to, const Packet16f& from) {
   EIGEN_DEBUG_ALIGNED_STORE _mm512_store_ps(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore<double>(double* to, const Packet8d& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<double>(double* to, const Packet8d& from) {
   EIGEN_DEBUG_ALIGNED_STORE _mm512_store_pd(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore<int>(int* to, const Packet16i& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<int>(int* to, const Packet16i& from) {
   EIGEN_DEBUG_ALIGNED_STORE _mm512_store_epi32(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore<int64_t>(int64_t* to, const Packet8l& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<int64_t>(int64_t* to, const Packet8l& from) {
   EIGEN_DEBUG_ALIGNED_STORE _mm512_store_epi64(to, from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<float>(float* to, const Packet16f& from) {
   EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_ps(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<double>(double* to, const Packet8d& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<double>(double* to, const Packet8d& from) {
   EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_pd(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<int>(int* to, const Packet16i& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<int>(int* to, const Packet16i& from) {
   EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_epi32(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<int64_t>(int64_t* to, const Packet8l& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<int64_t>(int64_t* to, const Packet8l& from) {
   EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_epi64(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from, uint16_t umask) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<float>(float* to, const Packet16f& from, uint16_t umask) {
   __mmask16 mask = static_cast<__mmask16>(umask);
   EIGEN_DEBUG_UNALIGNED_STORE return _mm512_mask_storeu_ps(to, mask, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<double>(double* to, const Packet8d& from, uint8_t umask) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<double>(double* to, const Packet8d& from, uint8_t umask) {
   __mmask8 mask = static_cast<__mmask8>(umask);
   EIGEN_DEBUG_UNALIGNED_STORE return _mm512_mask_storeu_pd(to, mask, from);
 }
 
 template <typename Scalar, typename Packet>
-EIGEN_DEVICE_FUNC inline Packet pgather(const Packet& src, const Scalar* from, Index stride,
-                                        typename unpacket_traits<Packet>::mask_t umask);
+EIGEN_DEVICE_FUNC inline constexpr Packet pgather(const Packet& src, const Scalar* from, Index stride,
+                                                  typename unpacket_traits<Packet>::mask_t umask);
 template <>
-EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const Packet16f& src, const float* from, Index stride,
-                                                             uint16_t umask) {
+EIGEN_DEVICE_FUNC inline constexpr Packet16f pgather<float, Packet16f>(const Packet16f& src, const float* from,
+                                                                       Index stride, uint16_t umask) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -1145,8 +1145,8 @@ EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const Packet16f& sr
   return _mm512_mask_i32gather_ps(src, mask, indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const Packet8d& src, const double* from, Index stride,
-                                                            uint8_t umask) {
+EIGEN_DEVICE_FUNC inline constexpr Packet8d pgather<double, Packet8d>(const Packet8d& src, const double* from,
+                                                                      Index stride, uint8_t umask) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
@@ -1156,7 +1156,7 @@ EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const Packet8d& src,
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet16f pgather<float, Packet16f>(const float* from, Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -1164,7 +1164,7 @@ EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from, 
   return _mm512_i32gather_ps(indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet8d pgather<double, Packet8d>(const double* from, Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
@@ -1172,7 +1172,7 @@ EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from, 
   return _mm512_i32gather_pd(indices, from, 8);
 }
 template <>
-EIGEN_DEVICE_FUNC inline Packet8l pgather<int64_t, Packet8l>(const int64_t* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet8l pgather<int64_t, Packet8l>(const int64_t* from, Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
@@ -1180,7 +1180,7 @@ EIGEN_DEVICE_FUNC inline Packet8l pgather<int64_t, Packet8l>(const int64_t* from
   return _mm512_i32gather_epi64(indices, from, 8);
 }
 template <>
-EIGEN_DEVICE_FUNC inline Packet16i pgather<int, Packet16i>(const int* from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr Packet16i pgather<int, Packet16i>(const int* from, Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -1188,11 +1188,11 @@ EIGEN_DEVICE_FUNC inline Packet16i pgather<int, Packet16i>(const int* from, Inde
 }
 
 template <typename Scalar, typename Packet>
-EIGEN_DEVICE_FUNC inline void pscatter(Scalar* to, const Packet& from, Index stride,
-                                       typename unpacket_traits<Packet>::mask_t umask);
+EIGEN_DEVICE_FUNC inline constexpr void pscatter(Scalar* to, const Packet& from, Index stride,
+                                                 typename unpacket_traits<Packet>::mask_t umask);
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to, const Packet16f& from, Index stride,
-                                                         uint16_t umask) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<float, Packet16f>(float* to, const Packet16f& from, Index stride,
+                                                                   uint16_t umask) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -1200,8 +1200,8 @@ EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to, const Packet
   _mm512_mask_i32scatter_ps(to, mask, indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to, const Packet8d& from, Index stride,
-                                                         uint8_t umask) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<double, Packet8d>(double* to, const Packet8d& from, Index stride,
+                                                                   uint8_t umask) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
@@ -1209,28 +1209,28 @@ EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to, const Packe
   _mm512_mask_i32scatter_pd(to, mask, indices, from, 8);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to, const Packet16f& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<float, Packet16f>(float* to, const Packet16f& from, Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
   _mm512_i32scatter_ps(to, indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to, const Packet8d& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<double, Packet8d>(double* to, const Packet8d& from, Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
   _mm512_i32scatter_pd(to, indices, from, 8);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<int64_t, Packet8l>(int64_t* to, const Packet8l& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<int64_t, Packet8l>(int64_t* to, const Packet8l& from, Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
   _mm512_i32scatter_epi64(to, indices, from, 8);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<int, Packet16i>(int* to, const Packet16i& from, Index stride) {
+EIGEN_DEVICE_FUNC inline constexpr void pscatter<int, Packet16i>(int* to, const Packet16i& from, Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier = _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -1238,54 +1238,54 @@ EIGEN_DEVICE_FUNC inline void pscatter<int, Packet16i>(int* to, const Packet16i&
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet16f>(float* to, const float& a) {
+EIGEN_STRONG_INLINE constexpr void pstore1<Packet16f>(float* to, const float& a) {
   Packet16f pa = pset1<Packet16f>(a);
   pstore(to, pa);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet8d>(double* to, const double& a) {
+EIGEN_STRONG_INLINE constexpr void pstore1<Packet8d>(double* to, const double& a) {
   Packet8d pa = pset1<Packet8d>(a);
   pstore(to, pa);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet16i>(int* to, const int& a) {
+EIGEN_STRONG_INLINE constexpr void pstore1<Packet16i>(int* to, const int& a) {
   Packet16i pa = pset1<Packet16i>(a);
   pstore(to, pa);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet8l>(int64_t* to, const int64_t& a) {
+EIGEN_STRONG_INLINE constexpr void pstore1<Packet8l>(int64_t* to, const int64_t& a) {
   Packet8l pa = pset1<Packet8l>(a);
   pstore(to, pa);
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<float>(const float* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<float>(const float* addr) {
   _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0);
 }
 template <>
-EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<double>(const double* addr) {
   _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0);
 }
 template <>
-EIGEN_STRONG_INLINE void prefetch<int>(const int* addr) {
+EIGEN_STRONG_INLINE constexpr void prefetch<int>(const int* addr) {
   _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0);
 }
 
 template <>
-EIGEN_STRONG_INLINE float pfirst<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr float pfirst<Packet16f>(const Packet16f& a) {
   return _mm512_cvtss_f32(a);
 }
 template <>
-EIGEN_STRONG_INLINE double pfirst<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr double pfirst<Packet8d>(const Packet8d& a) {
   return _mm512_cvtsd_f64(a);
 }
 template <>
-EIGEN_STRONG_INLINE int64_t pfirst<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t pfirst<Packet8l>(const Packet8l& a) {
   int64_t x = _mm_extract_epi64_0(_mm512_extracti32x4_epi32(a, 0));
   return x;
 }
 template <>
-EIGEN_STRONG_INLINE int pfirst<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr int pfirst<Packet16i>(const Packet16i& a) {
 #if EIGEN_GNUC_STRICT_LESS_THAN(11, 0, 0)
   return _mm_cvtsi128_si32(_mm512_castsi512_si128(a));
 #else
@@ -1294,69 +1294,69 @@ EIGEN_STRONG_INLINE int pfirst<Packet16i>(const Packet16i& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f preverse(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f preverse(const Packet16f& a) {
   return _mm512_permutexvar_ps(_mm512_set_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d preverse(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d preverse(const Packet8d& a) {
   return _mm512_permutexvar_pd(_mm512_set_epi32(0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i preverse(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr Packet16i preverse(const Packet16i& a) {
   return _mm512_permutexvar_epi32(_mm512_set_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8l preverse(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr Packet8l preverse(const Packet8l& a) {
   return _mm512_permutexvar_epi64(_mm512_set_epi64(0, 1, 2, 3, 4, 5, 6, 7), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pabs(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f pabs(const Packet16f& a) {
   // _mm512_abs_ps intrinsic not found, so hack around it
   return _mm512_castsi512_ps(_mm512_and_si512(_mm512_castps_si512(a), _mm512_set1_epi32(0x7fffffff)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pabs(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pabs(const Packet8d& a) {
   // _mm512_abs_ps intrinsic not found, so hack around it
   return _mm512_castsi512_pd(_mm512_and_si512(_mm512_castpd_si512(a), _mm512_set1_epi64(0x7fffffffffffffff)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pabs(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr Packet16i pabs(const Packet16i& a) {
   return _mm512_abs_epi32(a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8l pabs(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr Packet8l pabs(const Packet8l& a) {
   return _mm512_abs_epi64(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h psignbit(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h psignbit(const Packet16h& a) {
   return _mm256_srai_epi16(a, 15);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16bf psignbit(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf psignbit(const Packet16bf& a) {
   return _mm256_srai_epi16(a, 15);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f psignbit(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f psignbit(const Packet16f& a) {
   return _mm512_castsi512_ps(_mm512_srai_epi32(_mm512_castps_si512(a), 31));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d psignbit(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d psignbit(const Packet8d& a) {
   return _mm512_castsi512_pd(_mm512_srai_epi64(_mm512_castpd_si512(a), 63));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pfrexp<Packet16f>(const Packet16f& a, Packet16f& exponent) {
+EIGEN_STRONG_INLINE constexpr Packet16f pfrexp<Packet16f>(const Packet16f& a, Packet16f& exponent) {
   return pfrexp_generic(a, exponent);
 }
 
 // Extract exponent without existence of Packet8l.
 template <>
-EIGEN_STRONG_INLINE Packet8d pfrexp_generic_get_biased_exponent(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet8d pfrexp_generic_get_biased_exponent(const Packet8d& a) {
   const Packet8d cst_exp_mask = pset1frombits<Packet8d>(static_cast<uint64_t>(0x7ff0000000000000ull));
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   return _mm512_cvtepi64_pd(_mm512_srli_epi64(_mm512_castpd_si512(pand(a, cst_exp_mask)), 52));
@@ -1366,17 +1366,17 @@ EIGEN_STRONG_INLINE Packet8d pfrexp_generic_get_biased_exponent(const Packet8d& 
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pfrexp<Packet8d>(const Packet8d& a, Packet8d& exponent) {
+EIGEN_STRONG_INLINE constexpr Packet8d pfrexp<Packet8d>(const Packet8d& a, Packet8d& exponent) {
   return pfrexp_generic(a, exponent);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pldexp<Packet16f>(const Packet16f& a, const Packet16f& exponent) {
+EIGEN_STRONG_INLINE constexpr Packet16f pldexp<Packet16f>(const Packet16f& a, const Packet16f& exponent) {
   return pldexp_generic(a, exponent);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, const Packet8d& exponent) {
+EIGEN_STRONG_INLINE constexpr Packet8d pldexp<Packet8d>(const Packet8d& a, const Packet8d& exponent) {
   // Clamp exponent to [-2099, 2099]
   const Packet8d max_exponent = pset1<Packet8d>(2099.0);
   const Packet8i e = _mm512_cvtpd_epi32(pmin(pmax(exponent, pnegate(max_exponent)), max_exponent));
@@ -1450,7 +1450,7 @@ EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, const Packet8d&
 #endif
 
 template <>
-EIGEN_STRONG_INLINE float predux<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr float predux<Packet16f>(const Packet16f& a) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   __m256 lane0 = _mm512_extractf32x8_ps(a, 0);
   __m256 lane1 = _mm512_extractf32x8_ps(a, 1);
@@ -1466,7 +1466,7 @@ EIGEN_STRONG_INLINE float predux<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE double predux<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr double predux<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d sum = _mm256_add_pd(lane0, lane1);
@@ -1474,17 +1474,17 @@ EIGEN_STRONG_INLINE double predux<Packet8d>(const Packet8d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE int64_t predux<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t predux<Packet8l>(const Packet8l& a) {
   return _mm512_reduce_add_epi64(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE int predux<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr int predux<Packet16i>(const Packet16i& a) {
   return _mm512_reduce_add_epi32(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   __m256 lane0 = _mm512_extractf32x8_ps(a, 0);
   __m256 lane1 = _mm512_extractf32x8_ps(a, 1);
@@ -1500,13 +1500,13 @@ EIGEN_STRONG_INLINE Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet4d predux_half_dowto4<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr Packet4d predux_half_dowto4<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   return _mm256_add_pd(lane0, lane1);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8i predux_half_dowto4<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr Packet8i predux_half_dowto4<Packet16i>(const Packet16i& a) {
 #ifdef EIGEN_VECTORIZE_AVX512DQ
   __m256i lane0 = _mm512_extracti32x8_epi32(a, 0);
   __m256i lane1 = _mm512_extracti32x8_epi32(a, 1);
@@ -1523,14 +1523,14 @@ EIGEN_STRONG_INLINE Packet8i predux_half_dowto4<Packet16i>(const Packet16i& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4l predux_half_dowto4<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr Packet4l predux_half_dowto4<Packet8l>(const Packet8l& a) {
   __m256i lane0 = _mm512_extracti64x4_epi64(a, 0);
   __m256i lane1 = _mm512_extracti64x4_epi64(a, 1);
   return _mm256_add_epi64(lane0, lane1);
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux_mul<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_mul<Packet16f>(const Packet16f& a) {
 // #ifdef EIGEN_VECTORIZE_AVX512DQ
 #if 0
   Packet8f lane0 = _mm512_extractf32x8_ps(a, 0);
@@ -1550,7 +1550,7 @@ EIGEN_STRONG_INLINE float predux_mul<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE double predux_mul<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_mul<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = pmul(lane0, lane1);
@@ -1558,7 +1558,7 @@ EIGEN_STRONG_INLINE double predux_mul<Packet8d>(const Packet8d& a) {
   return pfirst(pmul(res, _mm256_shuffle_pd(res, res, 1)));
 }
 template <>
-EIGEN_STRONG_INLINE int predux_mul<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr int predux_mul<Packet16i>(const Packet16i& a) {
   return _mm512_reduce_mul_epi32(a);
 }
 
@@ -1569,7 +1569,7 @@ EIGEN_STRONG_INLINE int predux_mul<Packet16i>(const Packet16i& a) {
 // produces garbage: 4294967295.  It seems to happen whenever the output is supposed to be negative.
 // Fall back to a manual approach:
 template <>
-EIGEN_STRONG_INLINE int64_t predux_mul<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t predux_mul<Packet8l>(const Packet8l& a) {
   Packet4l lane0 = _mm512_extracti64x4_epi64(a, 0);
   Packet4l lane1 = _mm512_extracti64x4_epi64(a, 1);
   Packet4l res = pmul(lane0, lane1);
@@ -1579,13 +1579,13 @@ EIGEN_STRONG_INLINE int64_t predux_mul<Packet8l>(const Packet8l& a) {
 }
 #else
 template <>
-EIGEN_STRONG_INLINE int64_t predux_mul<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t predux_mul<Packet8l>(const Packet8l& a) {
   return _mm512_reduce_mul_epi64(a);
 }
 #endif
 
 template <>
-EIGEN_STRONG_INLINE float predux_min<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_min<Packet16f>(const Packet16f& a) {
   __m128 lane0 = _mm512_extractf32x4_ps(a, 0);
   __m128 lane1 = _mm512_extractf32x4_ps(a, 1);
   __m128 lane2 = _mm512_extractf32x4_ps(a, 2);
@@ -1595,7 +1595,7 @@ EIGEN_STRONG_INLINE float predux_min<Packet16f>(const Packet16f& a) {
   return pfirst(_mm_min_ps(res, _mm_permute_ps(res, _MM_SHUFFLE(0, 0, 0, 1))));
 }
 template <>
-EIGEN_STRONG_INLINE double predux_min<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_min<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = _mm256_min_pd(lane0, lane1);
@@ -1603,16 +1603,16 @@ EIGEN_STRONG_INLINE double predux_min<Packet8d>(const Packet8d& a) {
   return pfirst(_mm256_min_pd(res, _mm256_shuffle_pd(res, res, 1)));
 }
 template <>
-EIGEN_STRONG_INLINE int predux_min<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr int predux_min<Packet16i>(const Packet16i& a) {
   return _mm512_reduce_min_epi32(a);
 }
 template <>
-EIGEN_STRONG_INLINE int64_t predux_min<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t predux_min<Packet8l>(const Packet8l& a) {
   return _mm512_reduce_min_epi64(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux_max<Packet16f>(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr float predux_max<Packet16f>(const Packet16f& a) {
   __m128 lane0 = _mm512_extractf32x4_ps(a, 0);
   __m128 lane1 = _mm512_extractf32x4_ps(a, 1);
   __m128 lane2 = _mm512_extractf32x4_ps(a, 2);
@@ -1623,7 +1623,7 @@ EIGEN_STRONG_INLINE float predux_max<Packet16f>(const Packet16f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE double predux_max<Packet8d>(const Packet8d& a) {
+EIGEN_STRONG_INLINE constexpr double predux_max<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = _mm256_max_pd(lane0, lane1);
@@ -1631,23 +1631,23 @@ EIGEN_STRONG_INLINE double predux_max<Packet8d>(const Packet8d& a) {
   return pfirst(_mm256_max_pd(res, _mm256_shuffle_pd(res, res, 1)));
 }
 template <>
-EIGEN_STRONG_INLINE int predux_max<Packet16i>(const Packet16i& a) {
+EIGEN_STRONG_INLINE constexpr int predux_max<Packet16i>(const Packet16i& a) {
   return _mm512_reduce_max_epi32(a);
 }
 template <>
-EIGEN_STRONG_INLINE int64_t predux_max<Packet8l>(const Packet8l& a) {
+EIGEN_STRONG_INLINE constexpr int64_t predux_max<Packet8l>(const Packet8l& a) {
   return _mm512_reduce_max_epi64(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE bool predux_any(const Packet16f& x) {
+EIGEN_STRONG_INLINE constexpr bool predux_any(const Packet16f& x) {
   Packet16i xi = _mm512_castps_si512(x);
   __mmask16 tmp = _mm512_test_epi32_mask(xi, xi);
   return !_mm512_kortestz(tmp, tmp);
 }
 
 template <>
-EIGEN_STRONG_INLINE bool predux_any(const Packet16i& x) {
+EIGEN_STRONG_INLINE constexpr bool predux_any(const Packet16i& x) {
   __mmask16 tmp = _mm512_test_epi32_mask(x, x);
   return !_mm512_kortestz(tmp, tmp);
 }
@@ -1655,7 +1655,7 @@ EIGEN_STRONG_INLINE bool predux_any(const Packet16i& x) {
 #define PACK_OUTPUT(OUTPUT, INPUT, INDEX, STRIDE) \
   EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[INDEX], INPUT[INDEX + STRIDE]);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
   __m512 T0 = _mm512_unpacklo_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T1 = _mm512_unpackhi_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T2 = _mm512_unpacklo_ps(kernel.packet[2], kernel.packet[3]);
@@ -1769,7 +1769,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
 #define PACK_OUTPUT_2(OUTPUT, INPUT, INDEX, STRIDE) \
   EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[2 * INDEX], INPUT[2 * INDEX + STRIDE]);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 8>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet16f, 8>& kernel) {
   __m512 T0 = _mm512_unpacklo_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T1 = _mm512_unpackhi_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T2 = _mm512_unpacklo_ps(kernel.packet[2], kernel.packet[3]);
@@ -1807,7 +1807,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 8>& kernel) {
   kernel.packet[7] = _mm512_shuffle_f32x4(T5, T7, 0xdd);
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
   __m512 T0 = _mm512_unpacklo_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T1 = _mm512_unpackhi_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T2 = _mm512_unpacklo_ps(kernel.packet[2], kernel.packet[3]);
@@ -1853,7 +1853,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
   OUTPUT[INDEX] = _mm512_inserti64x4(OUTPUT[INDEX], INPUT[(2 * INDEX)], 0); \
   OUTPUT[INDEX] = _mm512_inserti64x4(OUTPUT[INDEX], INPUT[(2 * INDEX) + STRIDE], 1);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
   __m512d T0 = _mm512_shuffle_pd(kernel.packet[0], kernel.packet[1], 0);
   __m512d T1 = _mm512_shuffle_pd(kernel.packet[0], kernel.packet[1], 0xff);
   __m512d T2 = _mm512_shuffle_pd(kernel.packet[2], kernel.packet[3], 0);
@@ -1877,7 +1877,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
   PACK_OUTPUT_D(kernel.packet, tmp.packet, 3, 1);
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
   __m512d T0 = _mm512_unpacklo_pd(kernel.packet[0], kernel.packet[1]);
   __m512d T1 = _mm512_unpackhi_pd(kernel.packet[0], kernel.packet[1]);
   __m512d T2 = _mm512_unpacklo_pd(kernel.packet[2], kernel.packet[3]);
@@ -1931,7 +1931,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
   kernel.packet[7] = T7;
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8l, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet8l, 4>& kernel) {
   __m512i T0 = _mm512_castpd_si512(
       _mm512_shuffle_pd(_mm512_castsi512_pd(kernel.packet[0]), _mm512_castsi512_pd(kernel.packet[1]), 0));
   __m512i T1 = _mm512_castpd_si512(
@@ -1959,7 +1959,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8l, 4>& kernel) {
   PACK_OUTPUT_L(kernel.packet, tmp.packet, 3, 1);
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8l, 8>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet8l, 8>& kernel) {
   __m512i T0 = _mm512_unpacklo_epi64(kernel.packet[0], kernel.packet[1]);
   __m512i T1 = _mm512_unpackhi_epi64(kernel.packet[0], kernel.packet[1]);
   __m512i T2 = _mm512_unpacklo_epi64(kernel.packet[2], kernel.packet[3]);
@@ -2021,7 +2021,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8l, 8>& kernel) {
 
 #define SHUFFLE_EPI32(A, B, M) _mm512_castps_si512(_mm512_shuffle_ps(_mm512_castsi512_ps(A), _mm512_castsi512_ps(B), M))
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16i, 16>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet16i, 16>& kernel) {
   __m512i T0 = _mm512_unpacklo_epi32(kernel.packet[0], kernel.packet[1]);
   __m512i T1 = _mm512_unpackhi_epi32(kernel.packet[0], kernel.packet[1]);
   __m512i T2 = _mm512_unpacklo_epi32(kernel.packet[2], kernel.packet[3]);
@@ -2133,7 +2133,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16i, 16>& kernel) {
   PACK_OUTPUT_I32(kernel.packet, tmp.packet, 15, 16);
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16i, 4>& kernel) {
+EIGEN_DEVICE_FUNC inline constexpr void ptranspose(PacketBlock<Packet16i, 4>& kernel) {
   __m512i T0 = _mm512_unpacklo_epi32(kernel.packet[0], kernel.packet[1]);
   __m512i T1 = _mm512_unpackhi_epi32(kernel.packet[0], kernel.packet[1]);
   __m512i T2 = _mm512_unpacklo_epi32(kernel.packet[2], kernel.packet[3]);
@@ -2168,7 +2168,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16i, 4>& kernel) {
 }
 
 template <size_t N>
-EIGEN_STRONG_INLINE int avx512_blend_mask(const Selector<N>& ifPacket) {
+EIGEN_STRONG_INLINE constexpr int avx512_blend_mask(const Selector<N>& ifPacket) {
   alignas(__m128i) uint8_t aux[sizeof(__m128i)];
   for (size_t i = 0; i < N; i++) aux[i] = static_cast<uint8_t>(ifPacket.select[i]);
   __m128i paux = _mm_sub_epi8(_mm_setzero_si128(), _mm_load_si128(reinterpret_cast<const __m128i*>(aux)));
@@ -2176,55 +2176,55 @@ EIGEN_STRONG_INLINE int avx512_blend_mask(const Selector<N>& ifPacket) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pblend(const Selector<16>& ifPacket, const Packet16f& thenPacket,
-                                     const Packet16f& elsePacket) {
+EIGEN_STRONG_INLINE constexpr Packet16f pblend(const Selector<16>& ifPacket, const Packet16f& thenPacket,
+                                               const Packet16f& elsePacket) {
   __mmask16 m = avx512_blend_mask(ifPacket);
   return _mm512_mask_blend_ps(m, elsePacket, thenPacket);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pblend(const Selector<8>& ifPacket, const Packet8d& thenPacket,
-                                    const Packet8d& elsePacket) {
+EIGEN_STRONG_INLINE constexpr Packet8d pblend(const Selector<8>& ifPacket, const Packet8d& thenPacket,
+                                              const Packet8d& elsePacket) {
   __mmask8 m = avx512_blend_mask(ifPacket);
   return _mm512_mask_blend_pd(m, elsePacket, thenPacket);
 }
 
 // Packet math for Eigen::half
 template <>
-EIGEN_STRONG_INLINE Packet16h pset1<Packet16h>(const Eigen::half& from) {
+EIGEN_STRONG_INLINE constexpr Packet16h pset1<Packet16h>(const Eigen::half& from) {
   return _mm256_set1_epi16(from.x);
 }
 
 template <>
-EIGEN_STRONG_INLINE Eigen::half pfirst<Packet16h>(const Packet16h& from) {
+EIGEN_STRONG_INLINE constexpr Eigen::half pfirst<Packet16h>(const Packet16h& from) {
   return half_impl::raw_uint16_to_half(static_cast<unsigned short>(_mm256_extract_epi16(from, 0)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pload<Packet16h>(const Eigen::half* from) {
+EIGEN_STRONG_INLINE constexpr Packet16h pload<Packet16h>(const Eigen::half* from) {
   return _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h ploadu<Packet16h>(const Eigen::half* from) {
+EIGEN_STRONG_INLINE constexpr Packet16h ploadu<Packet16h>(const Eigen::half* from) {
   return _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<half>(Eigen::half* to, const Packet16h& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<half>(Eigen::half* to, const Packet16h& from) {
   // (void*) -> workaround clang warning:
   // cast from 'Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
   _mm256_store_si256((__m256i*)(void*)to, from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<half>(Eigen::half* to, const Packet16h& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<half>(Eigen::half* to, const Packet16h& from) {
   // (void*) -> workaround clang warning:
   // cast from 'Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
   _mm256_storeu_si256((__m256i*)(void*)to, from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h ploaddup<Packet16h>(const Eigen::half* from) {
+EIGEN_STRONG_INLINE constexpr Packet16h ploaddup<Packet16h>(const Eigen::half* from) {
   unsigned short a = from[0].x;
   unsigned short b = from[1].x;
   unsigned short c = from[2].x;
@@ -2237,7 +2237,7 @@ EIGEN_STRONG_INLINE Packet16h ploaddup<Packet16h>(const Eigen::half* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h ploadquad(const Eigen::half* from) {
+EIGEN_STRONG_INLINE constexpr Packet16h ploadquad(const Eigen::half* from) {
   unsigned short a = from[0].x;
   unsigned short b = from[1].x;
   unsigned short c = from[2].x;
@@ -2245,123 +2245,123 @@ EIGEN_STRONG_INLINE Packet16h ploadquad(const Eigen::half* from) {
   return _mm256_set_epi16(d, d, d, d, c, c, c, c, b, b, b, b, a, a, a, a);
 }
 
-EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) { return _mm512_cvtph_ps(a); }
+EIGEN_STRONG_INLINE constexpr Packet16f half2float(const Packet16h& a) { return _mm512_cvtph_ps(a); }
 
-EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h float2half(const Packet16f& a) {
   return _mm512_cvtps_ph(a, _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h ptrue(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h ptrue(const Packet16h& a) {
   return Packet16h(ptrue(Packet8i(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pabs(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pabs(const Packet16h& a) {
   const __m256i sign_mask = _mm256_set1_epi16(static_cast<numext::uint16_t>(0x8000));
   return _mm256_andnot_si256(sign_mask, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pmin<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pmin<Packet16h>(const Packet16h& a, const Packet16h& b) {
   return float2half(pmin<Packet16f>(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pmax<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pmax<Packet16h>(const Packet16h& a, const Packet16h& b) {
   return float2half(pmax<Packet16f>(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h plset<Packet16h>(const half& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h plset<Packet16h>(const half& a) {
   return float2half(plset<Packet16f>(static_cast<float>(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h por(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h por(const Packet16h& a, const Packet16h& b) {
   // in some cases Packet8i is a wrapper around __m256i, so we need to
   // cast to Packet8i to call the correct overload.
   return Packet16h(por(Packet8i(a), Packet8i(b)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16h pxor(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pxor(const Packet16h& a, const Packet16h& b) {
   return Packet16h(pxor(Packet8i(a), Packet8i(b)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16h pand(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pand(const Packet16h& a, const Packet16h& b) {
   return Packet16h(pand(Packet8i(a), Packet8i(b)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16h pandnot(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pandnot(const Packet16h& a, const Packet16h& b) {
   return Packet16h(pandnot(Packet8i(a), Packet8i(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pselect(const Packet16h& mask, const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pselect(const Packet16h& mask, const Packet16h& a, const Packet16h& b) {
   return _mm256_blendv_epi8(b, a, mask);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pround<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pround<Packet16h>(const Packet16h& a) {
   return float2half(pround<Packet16f>(half2float(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h print<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h print<Packet16h>(const Packet16h& a) {
   return float2half(print<Packet16f>(half2float(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pceil<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pceil<Packet16h>(const Packet16h& a) {
   return float2half(pceil<Packet16f>(half2float(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pfloor<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pfloor<Packet16h>(const Packet16h& a) {
   return float2half(pfloor<Packet16f>(half2float(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h ptrunc<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h ptrunc<Packet16h>(const Packet16h& a) {
   return float2half(ptrunc<Packet16f>(half2float(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pcmp_eq(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pcmp_eq(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   return Pack32To16(pcmp_eq(af, bf));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pcmp_le(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pcmp_le(const Packet16h& a, const Packet16h& b) {
   return Pack32To16(pcmp_le(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pcmp_lt(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pcmp_lt(const Packet16h& a, const Packet16h& b) {
   return Pack32To16(pcmp_lt(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pcmp_lt_or_nan(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pcmp_lt_or_nan(const Packet16h& a, const Packet16h& b) {
   return Pack32To16(pcmp_lt_or_nan(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pconj(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pconj(const Packet16h& a) {
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pnegate(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h pnegate(const Packet16h& a) {
   Packet16h sign_mask = _mm256_set1_epi16(static_cast<unsigned short>(0x8000));
   return _mm256_xor_si256(a, sign_mask);
 }
 
 #ifndef EIGEN_VECTORIZE_AVX512FP16
 template <>
-EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = padd(af, bf);
@@ -2369,7 +2369,7 @@ EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h psub<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h psub<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = psub(af, bf);
@@ -2377,7 +2377,7 @@ EIGEN_STRONG_INLINE Packet16h psub<Packet16h>(const Packet16h& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = pmul(af, bf);
@@ -2385,7 +2385,7 @@ EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pdiv<Packet16h>(const Packet16h& a, const Packet16h& b) {
+EIGEN_STRONG_INLINE constexpr Packet16h pdiv<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = pdiv(af, bf);
@@ -2393,7 +2393,7 @@ EIGEN_STRONG_INLINE Packet16h pdiv<Packet16h>(const Packet16h& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
+EIGEN_STRONG_INLINE constexpr half predux<Packet16h>(const Packet16h& from) {
   Packet16f from_float = half2float(from);
   return half(predux(from_float));
 }
@@ -2401,41 +2401,41 @@ EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
 #endif
 
 template <>
-EIGEN_STRONG_INLINE Packet8h predux_half_dowto4<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet8h predux_half_dowto4<Packet16h>(const Packet16h& a) {
   Packet8h lane0 = _mm256_extractf128_si256(a, 0);
   Packet8h lane1 = _mm256_extractf128_si256(a, 1);
   return padd<Packet8h>(lane0, lane1);
 }
 
 template <>
-EIGEN_STRONG_INLINE Eigen::half predux_max<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Eigen::half predux_max<Packet16h>(const Packet16h& a) {
   Packet16f af = half2float(a);
   float reduced = predux_max<Packet16f>(af);
   return Eigen::half(reduced);
 }
 
 template <>
-EIGEN_STRONG_INLINE Eigen::half predux_min<Packet16h>(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Eigen::half predux_min<Packet16h>(const Packet16h& a) {
   Packet16f af = half2float(a);
   float reduced = predux_min<Packet16f>(af);
   return Eigen::half(reduced);
 }
 
 template <>
-EIGEN_STRONG_INLINE half predux_mul<Packet16h>(const Packet16h& from) {
+EIGEN_STRONG_INLINE constexpr half predux_mul<Packet16h>(const Packet16h& from) {
   Packet16f from_float = half2float(from);
   return half(predux_mul(from_float));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h preverse(const Packet16h& a) {
+EIGEN_STRONG_INLINE constexpr Packet16h preverse(const Packet16h& a) {
   __m128i m = _mm_setr_epi8(14, 15, 12, 13, 10, 11, 8, 9, 6, 7, 4, 5, 2, 3, 0, 1);
   return _mm256_insertf128_si256(_mm256_castsi128_si256(_mm_shuffle_epi8(_mm256_extractf128_si256(a, 1), m)),
                                  _mm_shuffle_epi8(_mm256_extractf128_si256(a, 0), m), 1);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pgather<Eigen::half, Packet16h>(const Eigen::half* from, Index stride) {
+EIGEN_STRONG_INLINE constexpr Packet16h pgather<Eigen::half, Packet16h>(const Eigen::half* from, Index stride) {
   return _mm256_set_epi16(from[15 * stride].x, from[14 * stride].x, from[13 * stride].x, from[12 * stride].x,
                           from[11 * stride].x, from[10 * stride].x, from[9 * stride].x, from[8 * stride].x,
                           from[7 * stride].x, from[6 * stride].x, from[5 * stride].x, from[4 * stride].x,
@@ -2443,7 +2443,7 @@ EIGEN_STRONG_INLINE Packet16h pgather<Eigen::half, Packet16h>(const Eigen::half*
 }
 
 template <>
-EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride) {
+EIGEN_STRONG_INLINE constexpr void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride) {
   EIGEN_ALIGN64 half aux[16];
   pstore(aux, from);
   to[stride * 0] = aux[0];
@@ -2464,7 +2464,7 @@ EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& fr
   to[stride * 15] = aux[15];
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16h, 16>& kernel) {
+EIGEN_STRONG_INLINE constexpr void ptranspose(PacketBlock<Packet16h, 16>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
   __m256i c = kernel.packet[2];
@@ -2571,7 +2571,7 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16h, 16>& kernel) {
   kernel.packet[15] = a_p_f;
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16h, 8>& kernel) {
+EIGEN_STRONG_INLINE constexpr void ptranspose(PacketBlock<Packet16h, 8>& kernel) {
   EIGEN_ALIGN64 half in[8][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
@@ -2603,7 +2603,7 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16h, 8>& kernel) {
   kernel.packet[7] = pload<Packet16h>(out[7]);
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16h, 4>& kernel) {
+EIGEN_STRONG_INLINE constexpr void ptranspose(PacketBlock<Packet16h, 4>& kernel) {
   EIGEN_ALIGN64 half in[4][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
@@ -2681,39 +2681,39 @@ struct unpacket_traits<Packet16bf> {
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pset1<Packet16bf>(const bfloat16& from) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pset1<Packet16bf>(const bfloat16& from) {
   return _mm256_set1_epi16(from.value);
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 pfirst<Packet16bf>(const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr bfloat16 pfirst<Packet16bf>(const Packet16bf& from) {
   bfloat16 t;
   t.value = static_cast<unsigned short>(_mm256_extract_epi16(from, 0));
   return t;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pload<Packet16bf>(const bfloat16* from) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pload<Packet16bf>(const bfloat16* from) {
   return _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ploadu<Packet16bf>(const bfloat16* from) {
+EIGEN_STRONG_INLINE constexpr Packet16bf ploadu<Packet16bf>(const bfloat16* from) {
   return _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<bfloat16>(bfloat16* to, const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr void pstore<bfloat16>(bfloat16* to, const Packet16bf& from) {
   _mm256_store_si256(reinterpret_cast<__m256i*>(to), from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<bfloat16>(bfloat16* to, const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr void pstoreu<bfloat16>(bfloat16* to, const Packet16bf& from) {
   _mm256_storeu_si256(reinterpret_cast<__m256i*>(to), from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ploaddup<Packet16bf>(const bfloat16* from) {
+EIGEN_STRONG_INLINE constexpr Packet16bf ploaddup<Packet16bf>(const bfloat16* from) {
   unsigned short a = from[0].value;
   unsigned short b = from[1].value;
   unsigned short c = from[2].value;
@@ -2726,7 +2726,7 @@ EIGEN_STRONG_INLINE Packet16bf ploaddup<Packet16bf>(const bfloat16* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ploadquad(const bfloat16* from) {
+EIGEN_STRONG_INLINE constexpr Packet16bf ploadquad(const bfloat16* from) {
   unsigned short a = from[0].value;
   unsigned short b = from[1].value;
   unsigned short c = from[2].value;
@@ -2734,12 +2734,12 @@ EIGEN_STRONG_INLINE Packet16bf ploadquad(const bfloat16* from) {
   return _mm256_set_epi16(d, d, d, d, c, c, c, c, b, b, b, b, a, a, a, a);
 }
 
-EIGEN_STRONG_INLINE Packet16f Bf16ToF32(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16f Bf16ToF32(const Packet16bf& a) {
   return _mm512_castsi512_ps(_mm512_slli_epi32(_mm512_cvtepu16_epi32(a), 16));
 }
 
 // Convert float to bfloat16 according to round-to-nearest-even/denormals algorithm.
-EIGEN_STRONG_INLINE Packet16bf F32ToBf16(const Packet16f& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf F32ToBf16(const Packet16f& a) {
   Packet16bf r;
 
 #if defined(EIGEN_VECTORIZE_AVX512BF16) && EIGEN_GNUC_STRICT_AT_LEAST(10, 1, 0)
@@ -2774,163 +2774,163 @@ EIGEN_STRONG_INLINE Packet16bf F32ToBf16(const Packet16f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ptrue(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf ptrue(const Packet16bf& a) {
   return Packet16bf(ptrue<Packet8i>(Packet8i(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf por(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf por(const Packet16bf& a, const Packet16bf& b) {
   return Packet16bf(por<Packet8i>(Packet8i(a), Packet8i(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pxor(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pxor(const Packet16bf& a, const Packet16bf& b) {
   return Packet16bf(pxor<Packet8i>(Packet8i(a), Packet8i(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pand(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pand(const Packet16bf& a, const Packet16bf& b) {
   return Packet16bf(pand<Packet8i>(Packet8i(a), Packet8i(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pandnot(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pandnot(const Packet16bf& a, const Packet16bf& b) {
   return Packet16bf(pandnot<Packet8i>(Packet8i(a), Packet8i(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pselect(const Packet16bf& mask, const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pselect(const Packet16bf& mask, const Packet16bf& a, const Packet16bf& b) {
   // Input mask is expected to be all 0/1, handle it with 8-bit
   // intrinsic for performance.
   return _mm256_blendv_epi8(b, a, mask);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pround<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pround<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(pround<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf print<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf print<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(print<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pceil<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pceil<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(pceil<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pfloor<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pfloor<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(pfloor<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ptrunc<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf ptrunc<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(ptrunc<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_eq(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pcmp_eq(const Packet16bf& a, const Packet16bf& b) {
   return Pack32To16(pcmp_eq(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_le(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pcmp_le(const Packet16bf& a, const Packet16bf& b) {
   return Pack32To16(pcmp_le(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_lt(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pcmp_lt(const Packet16bf& a, const Packet16bf& b) {
   return Pack32To16(pcmp_lt(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_lt_or_nan(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pcmp_lt_or_nan(const Packet16bf& a, const Packet16bf& b) {
   return Pack32To16(pcmp_lt_or_nan(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pnegate(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pnegate(const Packet16bf& a) {
   Packet16bf sign_mask = _mm256_set1_epi16(static_cast<unsigned short>(0x8000));
   return _mm256_xor_si256(a, sign_mask);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pconj(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pconj(const Packet16bf& a) {
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pabs(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pabs(const Packet16bf& a) {
   const __m256i sign_mask = _mm256_set1_epi16(static_cast<numext::uint16_t>(0x8000));
   return _mm256_andnot_si256(sign_mask, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf padd<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf padd<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(padd<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf psub<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf psub<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(psub<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmul<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pmul<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(pmul<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pdiv<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pdiv<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(pdiv<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmin<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pmin<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(pmin<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmax<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pmax<Packet16bf>(const Packet16bf& a, const Packet16bf& b) {
   return F32ToBf16(pmax<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf plset<Packet16bf>(const bfloat16& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf plset<Packet16bf>(const bfloat16& a) {
   return F32ToBf16(plset<Packet16f>(static_cast<float>(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8bf predux_half_dowto4<Packet16bf>(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet8bf predux_half_dowto4<Packet16bf>(const Packet16bf& a) {
   Packet8bf lane0 = _mm256_extractf128_si256(a, 0);
   Packet8bf lane1 = _mm256_extractf128_si256(a, 1);
   return padd<Packet8bf>(lane0, lane1);
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux<Packet16bf>(const Packet16bf& p) {
+EIGEN_STRONG_INLINE constexpr bfloat16 predux<Packet16bf>(const Packet16bf& p) {
   return static_cast<bfloat16>(predux<Packet16f>(Bf16ToF32(p)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_mul<Packet16bf>(const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr bfloat16 predux_mul<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_mul<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_min<Packet16bf>(const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr bfloat16 predux_min<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_min<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_max<Packet16bf>(const Packet16bf& from) {
+EIGEN_STRONG_INLINE constexpr bfloat16 predux_max<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_max<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf preverse(const Packet16bf& a) {
+EIGEN_STRONG_INLINE constexpr Packet16bf preverse(const Packet16bf& a) {
   __m256i m = _mm256_setr_epi8(14, 15, 12, 13, 10, 11, 8, 9, 6, 7, 4, 5, 2, 3, 0, 1, 14, 15, 12, 13, 10, 11, 8, 9, 6, 7,
                                4, 5, 2, 3, 0, 1);
 
@@ -2942,7 +2942,7 @@ EIGEN_STRONG_INLINE Packet16bf preverse(const Packet16bf& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* from, Index stride) {
+EIGEN_STRONG_INLINE constexpr Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* from, Index stride) {
   return _mm256_set_epi16(
       from[15 * stride].value, from[14 * stride].value, from[13 * stride].value, from[12 * stride].value,
       from[11 * stride].value, from[10 * stride].value, from[9 * stride].value, from[8 * stride].value,
@@ -2951,7 +2951,7 @@ EIGEN_STRONG_INLINE Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* fro
 }
 
 template <>
-EIGEN_STRONG_INLINE void pscatter<bfloat16, Packet16bf>(bfloat16* to, const Packet16bf& from, Index stride) {
+EIGEN_STRONG_INLINE constexpr void pscatter<bfloat16, Packet16bf>(bfloat16* to, const Packet16bf& from, Index stride) {
   EIGEN_ALIGN64 bfloat16 aux[16];
   pstore(aux, from);
   to[stride * 0] = aux[0];
@@ -2972,7 +2972,7 @@ EIGEN_STRONG_INLINE void pscatter<bfloat16, Packet16bf>(bfloat16* to, const Pack
   to[stride * 15] = aux[15];
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf, 16>& kernel) {
+EIGEN_STRONG_INLINE constexpr void ptranspose(PacketBlock<Packet16bf, 16>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
   __m256i c = kernel.packet[2];
@@ -3062,7 +3062,7 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf, 16>& kernel) {
   kernel.packet[15] = _mm256_permute2x128_si256(abcdefgh_ef, ijklmnop_ef, 0x31);
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf, 4>& kernel) {
+EIGEN_STRONG_INLINE constexpr void ptranspose(PacketBlock<Packet16bf, 4>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
   __m256i c = kernel.packet[2];
