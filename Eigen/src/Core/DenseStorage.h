@@ -91,7 +91,7 @@ struct DenseStorageIndices {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const { return Cols; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index size() const { return Rows * Cols; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set(Index /*rows*/, Index /*cols*/) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void swap(DenseStorageIndices& /*other*/) noexcept {}
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void swap(DenseStorageIndices& /*other*/) noexcept {}
 };
 template <int Rows>
 struct DenseStorageIndices<Rows, Dynamic> {
@@ -102,11 +102,11 @@ struct DenseStorageIndices<Rows, Dynamic> {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(DenseStorageIndices&&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(const DenseStorageIndices&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(DenseStorageIndices&&) = default;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE DenseStorageIndices(Index /*rows*/, Index cols) : m_cols(cols) {}
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(Index /*rows*/, Index cols) : m_cols(cols) {}
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const { return Rows; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index cols() const { return m_cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index size() const { return Rows * m_cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set(Index /*rows*/, Index cols) { m_cols = cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const { return m_cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index size() const { return Rows * m_cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set(Index /*rows*/, Index cols) { m_cols = cols; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void swap(DenseStorageIndices& other) noexcept {
     numext::swap(m_cols, other.m_cols);
   }
@@ -120,11 +120,11 @@ struct DenseStorageIndices<Dynamic, Cols> {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(DenseStorageIndices&&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(const DenseStorageIndices&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(DenseStorageIndices&&) = default;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE DenseStorageIndices(Index rows, Index /*cols*/) : m_rows(rows) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rows() const { return m_rows; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(Index rows, Index /*cols*/) : m_rows(rows) {}
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const { return m_rows; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const { return Cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index size() const { return m_rows * Cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set(Index rows, Index /*cols*/) { m_rows = rows; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index size() const { return m_rows * Cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set(Index rows, Index /*cols*/) { m_rows = rows; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void swap(DenseStorageIndices& other) noexcept {
     numext::swap(m_rows, other.m_rows);
   }
@@ -139,11 +139,12 @@ struct DenseStorageIndices<Dynamic, Dynamic> {
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(DenseStorageIndices&&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(const DenseStorageIndices&) = default;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices& operator=(DenseStorageIndices&&) = default;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE DenseStorageIndices(Index rows, Index cols) : m_rows(rows), m_cols(cols) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rows() const { return m_rows; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index cols() const { return m_cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index size() const { return m_rows * m_cols; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set(Index rows, Index cols) {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr DenseStorageIndices(Index rows, Index cols)
+      : m_rows(rows), m_cols(cols) {}
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const { return m_rows; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const { return m_cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index size() const { return m_rows * m_cols; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void set(Index rows, Index cols) {
     m_rows = rows;
     m_cols = cols;
   }
